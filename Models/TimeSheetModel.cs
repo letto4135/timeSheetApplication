@@ -8,7 +8,7 @@ namespace Zeit.Models
         public int TimeSheetId { get; set; }
 
         // Time entry includes start/stop time and calculation for hoursworked
-        public Day day { get; set; }
+        public DayModel day { get; set; }
 
         // Employee Id
         public Guid Id { get; set; }

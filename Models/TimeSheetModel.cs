@@ -5,7 +5,7 @@ namespace Zeit.Models
 {
     public class TimeSheet
     {
-        public int TimeSheetId { get; set; }
+        public Guid TimesheetId { get; }
 
         // Time entry includes start/stop time and calculation for hoursworked
         public DayModel day { get; set; }

@@ -17,7 +17,7 @@ namespace Zeit.Models
             }
             set
             {
-                if (!firstName.IsNullOrEmpty())
+                if (!String.IsNullOrEmpty(firstName))
                 {
                     this._firstName = firstName;
                 }
@@ -35,7 +35,7 @@ namespace Zeit.Models
             }
             set
             {
-                if (!lastName.IsNullOrEmpty())
+                if (!String.IsNullOrEmpty(lastName))
                 {
                     this._lastName = lastName;
                 }
@@ -53,7 +53,7 @@ namespace Zeit.Models
             }
             set
             {
-                if (!divison.IsNullOrEmpty())
+                if (!String.IsNullOrEmpty(divison))
                 {
                     this._divison = divison;
                 }

@@ -6,10 +6,12 @@ namespace Zeit.Models
     public class TimeSheet
     {
         public int TimeSheetId { get; set; }
-        public DateTime? FromDate { get; set; }
-        public DateTime? ToDate { get; set; }
-        public int? TotalHours { get; set; }
-        public int UserId { get; set; }
+
+        // Time entry includes start/stop time and calculation for hoursworked
+        public Day day { get; set; }
+
+        // Employee Id
+        public Guid Id { get; set; }
 
     }
 }

@@ -58,7 +58,7 @@ namespace Zeit.Models
             set
             {
                 _result = result = Regex.IsMatch(divison, @"^[a-zA-Z]+$");
-                if (!String.IsNullOrEmpty(divison))
+                if (!String.IsNullOrEmpty(divison) && _result)
                 {
                     this._divison = divison;
                 }

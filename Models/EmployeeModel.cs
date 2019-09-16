@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Zeit.Models
 {
@@ -9,6 +10,7 @@ namespace Zeit.Models
         private string _firstName;
         private string _lastName;
         private string _divison;
+        private bool _result;
         public string firstName
         {
             get
@@ -17,13 +19,14 @@ namespace Zeit.Models
             }
             set
             {
-                if (!String.IsNullOrEmpty(firstName))
+                _result = Regex.IsMatch(firstName, @"^[a-zA-Z]+$");
+                if (!String.IsNullOrEmpty(firstName) && _result)
                 {
                     this._firstName = firstName;
                 }
                 else
                 {
-                    throw new FormatException("First name can not be empty");
+                    throw new FormatException("First name can not be empty, must only contain letters.");
                 }
             }
         }
@@ -35,13 +38,14 @@ namespace Zeit.Models
             }
             set
             {
-                if (!String.IsNullOrEmpty(lastName))
+                _result = Regex.IsMatch(lastName, @"^[a-zA-Z]+$");
+                if (!String.IsNullOrEmpty(lastName) && _result)
                 {
                     this._lastName = lastName;
                 }
                 else
                 {
-                    throw new FormatException("Last name can not be empty");
+                    throw new FormatException("Last name can not be empty, must only contain letters.");
                 }
             }
         }
@@ -53,7 +57,9 @@ namespace Zeit.Models
             }
             set
             {
-                if (!String.IsNullOrEmpty(divison))
+                _result = result = Regex.IsMatch(divison, @"^[a-zA-Z]+$");
+                if (!String.IsNullOrEmpty(divison) && _result)
+
                 {
                     this._divison = divison;
                 }

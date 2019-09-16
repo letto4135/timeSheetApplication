@@ -2,7 +2,7 @@
 
 namespace Zeit.Models
 {
-	public class Manager : EmployeeModel
+	public class ManagerModel : EmployeeModel
 	{
        public bool TimeSheetApprovalStatus { get; set; }
 	}

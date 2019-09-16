@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Zeit
+namespace Zeit.Models
 {
     public class EmployeeModel
     {

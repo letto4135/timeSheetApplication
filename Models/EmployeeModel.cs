@@ -70,7 +70,6 @@ namespace Zeit.Models
             }
         }
         public bool exempt { get; set; }
-
     }
 }
 

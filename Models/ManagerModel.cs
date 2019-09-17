@@ -4,6 +4,7 @@ namespace Zeit.Models
 {
 	public class ManagerModel : EmployeeModel
 	{
-       public bool TimeSheetApprovalStatus { get; set; }
+        public Guid ManagerId { get; }
+        public string EmployeeId { get; set; }
 	}
 }

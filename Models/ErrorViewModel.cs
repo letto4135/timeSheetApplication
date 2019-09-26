@@ -1,6 +1,6 @@
 using System;
 
-namespace Zeit.Models
+namespace timeSheetApplication.Models
 {
     public class ErrorViewModel
     {

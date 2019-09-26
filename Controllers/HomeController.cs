@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Zeit.Models;
+using timeSheetApplication.Models;
 
-namespace Zeit.Controllers
+namespace timeSheetApplication.Controllers
 {
     public class HomeController : Controller
     {

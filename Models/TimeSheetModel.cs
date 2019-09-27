@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Zeit.Models
 {
-    public class TimeSheet
+    public class TimeSheetModel
     {
         public Guid TimesheetId { get; }
 

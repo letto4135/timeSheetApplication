@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace timeSheetApplication.Data.Migrations
+namespace timeSheetApplication.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class migration1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,11 +39,35 @@ namespace timeSheetApplication.Data.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    employeeID = table.Column<int>(nullable: true),
+                    firstName = table.Column<string>(nullable: true),
+                    lastName = table.Column<string>(nullable: true),
+                    divison = table.Column<string>(nullable: true),
+                    exempt = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TimeSheets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    EmployeeId = table.Column<int>(nullable: false),
+                    Enter = table.Column<string>(nullable: true),
+                    Exit = table.Column<string>(nullable: true),
+                    statusMessage = table.Column<string>(nullable: true),
+                    Approved = table.Column<bool>(nullable: true),
+                    HoursWorked = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimeSheets", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -206,6 +230,9 @@ namespace timeSheetApplication.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "TimeSheets");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

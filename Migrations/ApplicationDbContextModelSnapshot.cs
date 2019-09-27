@@ -2,17 +2,15 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using timeSheetApplication.Data;
 
-namespace timeSheetApplication.Data.Migrations
+namespace timeSheetApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190927201810_initial migration")]
-    partial class initialmigration
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,8 +184,20 @@ namespace timeSheetApplication.Data.Migrations
 
             modelBuilder.Entity("Zeit.Models.TimeSheetModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool?>("Approved");
+
+                    b.Property<int>("EmployeeId");
+
+                    b.Property<string>("Enter");
+
+                    b.Property<string>("Exit");
+
+                    b.Property<float>("HoursWorked");
+
+                    b.Property<string>("statusMessage");
 
                     b.HasKey("Id");
 

@@ -5,21 +5,19 @@ namespace Zeit.Models
 {
     public class TimeSheetModel
     {
-        public Guid TimesheetId { get; }
+        public int Id { get; set; }
 
         // Employee Id
-        public Guid Id { get; set; }
+        public int EmployeeId { get; set; }
+
         // Time entry includes start/stop time and calculation for hoursworked
+        public string Enter { get; set;}
 
-        DateTime Enter { get; set;}
+        public string Exit { get; set; }
+        public string? statusMessage{get; set;}
 
-        DateTime Exit { get; set; }
-        
-        string? statusMessage{get; set;}
+        public bool? Approved{get; set;}
 
-        bool? Approved{get; set;}
-
-        float HoursWorked { get; set; }
+        public float HoursWorked { get; set; }
     }
 }
-

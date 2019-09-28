@@ -20,9 +20,22 @@ namespace timeSheetApplication.Controllers
         {
             _userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            //var currentUser = await _userManager.GetUserAsync();
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null) return Challenge();
+            /*else
+            {
+                RedirectToAction("");
+            }*/
+            return View();
+        }
+
+        public async Task<IActionResult> CurrentTimeSheet()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null) return Challenge();
+            
             return View();
         }
     }

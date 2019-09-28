@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Zeit.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace timeSheetApplication.Services
 {
@@ -21,7 +22,7 @@ namespace timeSheetApplication.Services
         public async Task<TimeSheetModel[]> ViewTimeSheetAsync(EmployeeModel user)
         {
             return await _context.TimeSheets
-                .Where(x => x.Approved == true && x.EmployeeId == user.employeeID)
+                .Where(x => x.EmployeeId == user.employeeID)
                 .ToArrayAsync();
         }
 
@@ -76,6 +77,13 @@ namespace timeSheetApplication.Services
             var saveResult = await _context.SaveChangesAsync();
 
             return saveResult == 1;
+        }
+
+        public async Task<TimeSheetModel[]> ListUnapproved()
+        {
+            return await _context.TimeSheets
+                .Where(x => x.Approved == false)
+                .ToArrayAsync();
         }
     }
 }

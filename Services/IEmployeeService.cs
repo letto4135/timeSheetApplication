@@ -1,11 +1,14 @@
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Zeit.Models;
+
 namespace timeSheetApplication.Services
 {
     public interface IEmployeeService
     {
         Task<EmployeeModel[]> ViewEmployeesAsync();
 
-        Task<bool> AddEmployeeAsync(IdentityUser newEmployee);
-
-        Task<bool> RemoveEmployeeAsync(Guid id);
+        Task<bool> RemoveEmployeeAsync(String id);
     }
 }

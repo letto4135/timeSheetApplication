@@ -14,6 +14,7 @@ namespace timeSheetApplication.Services
     public class TimeSheetService : ITimeSheetService
     {
         private readonly ApplicationDbContext _context;
+        
         public TimeSheetService(ApplicationDbContext context)
         {
             _context = context;
@@ -64,7 +65,7 @@ namespace timeSheetApplication.Services
             }
         }
 
-        public async Task<bool> ApproveTimeAsync(Guid id, EmployeeModel user)
+        public async Task<bool> ApproveTimeAsync(Guid id)
         {
             var update = await _context.TimeSheets
                 .Where(x => x.Id == id)

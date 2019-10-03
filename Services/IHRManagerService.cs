@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Zeit.Models;
 
 namespace timeSheetApplication.Services
 {

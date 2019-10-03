@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using timeSheetApplication.Models;
-using Zeit.Models;
 
 namespace timeSheetApplication.Services
 {
@@ -12,6 +11,8 @@ namespace timeSheetApplication.Services
         Task<TimeSheetModel[]> ViewTimeSheetAsync(string user);
 
         Task<bool> ClockInAsync(Guid id);
+
+        Task<TimeSheetModel> CurrentClockInAsync(Guid id);
 
         Task<bool> ClockOutAsync(Guid id);
 

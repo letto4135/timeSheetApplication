@@ -1,3 +1,7 @@
+@model TimeSheetViewModel
+
+<h4>Clocked in at: @Model.Items.Enter</h4>
+
 @await Html.PartialAsync("../Shared/_Clock.cshtml")
 
 <style>

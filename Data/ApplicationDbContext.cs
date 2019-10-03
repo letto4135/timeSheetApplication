@@ -4,7 +4,6 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Zeit.Models;
 using timeSheetApplication.Models;
 
 namespace timeSheetApplication.Data

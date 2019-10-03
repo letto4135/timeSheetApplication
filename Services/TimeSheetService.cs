@@ -4,7 +4,6 @@ using System.Linq;
 using timeSheetApplication.Data;
 using timeSheetApplication.Models;
 using Microsoft.EntityFrameworkCore;
-using Zeit.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -34,18 +33,36 @@ namespace timeSheetApplication.Services
         //
         public async Task<bool> ClockInAsync(Guid id)
         {
-            var newTime = new TimeSheetModel();
-            newTime.Approved = false;
-            newTime.Id = new Guid();
-            newTime.EmployeeId = id;
-            newTime.statusMessage = "";
-            newTime.Enter = DateTime.Now;
+            var alreadyClockedIn = await _context.TimeSheets
+                .Where(x => x.Exit == null && x.EmployeeId.Equals(id))
+                .SingleOrDefaultAsync();
 
-            _context.TimeSheets.Add(newTime);
+            if(alreadyClockedIn != null)
+            {
+                return false;
+            }
+            else
+            {
+                var newTime = new TimeSheetModel();
+                newTime.Approved = false;
+                newTime.Id = new Guid();
+                newTime.EmployeeId = id;
+                newTime.statusMessage = "";
+                newTime.Enter = DateTime.Now;
 
-            var saveResult = await _context.SaveChangesAsync();
+                _context.TimeSheets.Add(newTime);
 
-            return saveResult != 0;
+                var saveResult = await _context.SaveChangesAsync();
+
+                return saveResult != 0;
+            }
+        }
+
+        public async Task<TimeSheetModel> CurrentClockInAsync(Guid id)
+        {
+            return await _context.TimeSheets
+                .SingleOrDefaultAsync(x => x.EmployeeId.Equals(id)
+                                      && x.Exit == null);
         }
 
         public async Task<bool> ClockOutAsync(Guid id)

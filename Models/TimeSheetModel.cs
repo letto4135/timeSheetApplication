@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Zeit.Models
+namespace timeSheetApplication.Models
 {
     public class TimeSheetModel
     {

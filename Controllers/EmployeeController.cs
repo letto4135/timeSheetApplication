@@ -8,7 +8,6 @@ using timeSheetApplication.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using timeSheetApplication.Services;
-using Zeit.Models;
 
 namespace timeSheetApplication.Controllers
 {
@@ -54,7 +53,12 @@ namespace timeSheetApplication.Controllers
             if (currentUser == null) return Challenge();
 
             var employeeClockIn = await _timeSheetService.ClockInAsync(new Guid(currentUser.Id));
-            return View();
+            var currentTime = await _timeSheetService.CurrentClockInAsync(new Guid(currentUser.Id));
+            var model = new TimeSheetViewModel()
+            {
+                Items = currentTime
+            };
+            return View(model);
         }
 
         public async Task<IActionResult> ClockOut()

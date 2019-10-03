@@ -4,7 +4,6 @@ using System.Linq;
 using timeSheetApplication.Data;
 using timeSheetApplication.Models;
 using Microsoft.EntityFrameworkCore;
-using Zeit.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;

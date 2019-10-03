@@ -7,14 +7,14 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav">
+<ul class="text-center">
 @if (SignInManager.IsSignedIn(User))
 {
-    @await Html.PartialAsync("../Shared/_Clock.cshtml")
+    @await Html.PartialAsync("../Employee/_Clock.cshtml")
 }
 else
 {
-    <div class="text-center">
+    <div>
         <h1 class="display-4">Welcome</h1>
         <p>Please login to continue.</p>
     </div>

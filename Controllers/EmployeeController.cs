@@ -48,7 +48,6 @@ namespace timeSheetApplication.Controllers
 
         public async Task<IActionResult> ClockIn()
         {
-            Console.WriteLine("employeeClockIn");
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return Challenge();
 

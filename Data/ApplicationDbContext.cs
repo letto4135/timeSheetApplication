@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Zeit.Models;
+using timeSheetApplication.Models;
 
 namespace timeSheetApplication.Data
 {
@@ -19,6 +20,8 @@ namespace timeSheetApplication.Data
         public DbSet<EmployeeModel> Employees { get; set; }
 
         public DbSet<TimeSheetModel> TimeSheets { get; set; }
+
+        public DbSet<DivisionModel> Divisions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

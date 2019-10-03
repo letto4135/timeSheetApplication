@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using timeSheetApplication.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using timeSheetApplication.Services;
 
 namespace timeSheetApplication
 {
@@ -41,7 +42,9 @@ namespace timeSheetApplication
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<ITimeSheetService, TimeSheetService>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

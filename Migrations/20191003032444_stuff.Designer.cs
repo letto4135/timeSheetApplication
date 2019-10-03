@@ -9,8 +9,8 @@ using timeSheetApplication.Data;
 namespace timeSheetApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190927220742_migration1")]
-    partial class migration1
+    [Migration("20191003032444_stuff")]
+    partial class stuff
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -186,24 +186,38 @@ namespace timeSheetApplication.Migrations
 
             modelBuilder.Entity("Zeit.Models.TimeSheetModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("Approved");
+                    b.Property<bool>("Approved");
 
                     b.Property<int>("EmployeeId");
 
-                    b.Property<string>("Enter");
+                    b.Property<DateTime>("Enter");
 
-                    b.Property<string>("Exit");
+                    b.Property<DateTime?>("Exit");
 
-                    b.Property<float>("HoursWorked");
+                    b.Property<TimeSpan?>("HoursWorked");
 
                     b.Property<string>("statusMessage");
 
                     b.HasKey("Id");
 
                     b.ToTable("TimeSheets");
+                });
+
+            modelBuilder.Entity("timeSheetApplication.Models.DivisionModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Division");
+
+                    b.Property<Guid>("managerId");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Divisions");
                 });
 
             modelBuilder.Entity("Zeit.Models.EmployeeModel", b =>

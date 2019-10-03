@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Zeit.Models;
 
 namespace timeSheetApplication.Models
 {
@@ -7,5 +9,6 @@ namespace timeSheetApplication.Models
         public Guid id { get; set; }
         public string Division { get; set; }
         public Guid managerId { get; set; }
+       // public List<EmployeeModel> assignedEmployees {get; set;} = new List<EmployeeModel>();
     }
 }

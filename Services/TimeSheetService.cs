@@ -36,8 +36,8 @@ namespace timeSheetApplication.Services
         {
             var newTime = new TimeSheetModel();
             newTime.Approved = false;
-            newTime.Id = id;
             newTime.Id = new Guid();
+            newTime.EmployeeId = id;
             newTime.statusMessage = "";
             newTime.Enter = DateTime.Now;
 
@@ -45,13 +45,14 @@ namespace timeSheetApplication.Services
 
             var saveResult = await _context.SaveChangesAsync();
 
-            return saveResult == 1;
+            return saveResult != 0;
         }
 
-        public async Task<bool> ClockOutAsync(string id)
+        public async Task<bool> ClockOutAsync(Guid id)
         {
             var update = await _context.TimeSheets
-                .SingleOrDefaultAsync(x => x.Id.Equals(id));
+                .SingleOrDefaultAsync(x => x.Exit == null &&
+                                      x.EmployeeId.Equals(id));
 
             if(update != null)
             {
@@ -67,7 +68,7 @@ namespace timeSheetApplication.Services
                 else
                 {
                     var saveResult = await _context.SaveChangesAsync();
-                    return saveResult == 1;
+                    return saveResult != 0;
                 }
             }
             else
@@ -76,10 +77,10 @@ namespace timeSheetApplication.Services
             }
         }
 
-        public async Task<bool> ApproveTimeAsync(int id)
+        public async Task<bool> ApproveTimeAsync(Guid id)
         {
             var update = await _context.TimeSheets
-                .Where(x => x.EmployeeId == id)
+                .Where(x => x.Id.Equals(id))
                 .SingleOrDefaultAsync();
 
             if(update == null) return false;

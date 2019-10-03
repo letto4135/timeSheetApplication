@@ -26,7 +26,6 @@ namespace timeSheetApplication.Controllers
             _timeSheetService = service;
         }
 
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index()
         {
             /**
@@ -34,16 +33,10 @@ namespace timeSheetApplication.Controllers
              */
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return Challenge();
-            /*else
-            {
-                RedirectToAction("");
-            }*/
-            //var clockin = await _timeSheetService.ClockInAsync();
 
             return View(); // pass in clock in view
         }
 
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CurrentTimeSheet()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -54,26 +47,28 @@ namespace timeSheetApplication.Controllers
             return View(timeSheetData);
         }
 
-        public async Task<IActionResult> ClockInAsync()
+        public async Task<IActionResult> ClockIn()
         {
             Console.WriteLine("employeeClockIn");
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return Challenge();
-            //newTime.Enter(DateTime.Now);
-            //var timeSheet = _timeSheetService.ViewTimeSheetAsync(currentUser.Id);
 
             var employeeClockIn = await _timeSheetService.ClockInAsync(new Guid(currentUser.Id));
-            return RedirectToAction("Index");
+            return View();
         }
 
-        public async Task<IActionResult> ClockOutAsync()
+        public async Task<IActionResult> ClockOut()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return Challenge();
 
-            var employeeClockOut = _timeSheetService.ClockOutAsync(currentUser.Id);
+            var employeeClockOut = await _timeSheetService.ClockOutAsync(new Guid(currentUser.Id));
 
-            return View(employeeClockOut);
+            if(!employeeClockOut)
+            {
+                return BadRequest("Could not clock out properly.");
+            }
+            return View();
         }
     }
 }

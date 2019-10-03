@@ -7,8 +7,8 @@ namespace Zeit.Models
     {
         public Guid Id { get; set; }
 
-        // Employee Id
-        public int EmployeeId { get; set; }
+        // Employee Guid Id NOT THE HUMAN READABLE ID
+        public Guid EmployeeId { get; set; }
 
         // Time entry includes start/stop time and calculation for hoursworked
         public DateTime Enter { get; set;}

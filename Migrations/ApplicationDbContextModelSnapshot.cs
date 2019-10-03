@@ -189,7 +189,7 @@ namespace timeSheetApplication.Migrations
 
                     b.Property<bool>("Approved");
 
-                    b.Property<int>("EmployeeId");
+                    b.Property<Guid>("EmployeeId");
 
                     b.Property<DateTime>("Enter");
 

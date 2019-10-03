@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace timeSheetApplication.Migrations
 {
-    public partial class stuff : Migration
+    public partial class changingmodels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,7 +70,7 @@ namespace timeSheetApplication.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    EmployeeId = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<Guid>(nullable: false),
                     Enter = table.Column<DateTime>(nullable: false),
                     Exit = table.Column<DateTime>(nullable: true),
                     statusMessage = table.Column<string>(nullable: true),

@@ -9,8 +9,8 @@ using timeSheetApplication.Data;
 namespace timeSheetApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191003032444_stuff")]
-    partial class stuff
+    [Migration("20191003125112_changing models")]
+    partial class changingmodels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -191,7 +191,7 @@ namespace timeSheetApplication.Migrations
 
                     b.Property<bool>("Approved");
 
-                    b.Property<int>("EmployeeId");
+                    b.Property<Guid>("EmployeeId");
 
                     b.Property<DateTime>("Enter");
 

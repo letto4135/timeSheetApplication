@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace timeSheetApplication.Migrations
 {
-    public partial class migration1 : Migration
+    public partial class changingmodels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,17 +53,29 @@ namespace timeSheetApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Divisions",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    Division = table.Column<string>(nullable: true),
+                    managerId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Divisions", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TimeSheets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    EmployeeId = table.Column<int>(nullable: false),
-                    Enter = table.Column<string>(nullable: true),
-                    Exit = table.Column<string>(nullable: true),
+                    Id = table.Column<Guid>(nullable: false),
+                    EmployeeId = table.Column<Guid>(nullable: false),
+                    Enter = table.Column<DateTime>(nullable: false),
+                    Exit = table.Column<DateTime>(nullable: true),
                     statusMessage = table.Column<string>(nullable: true),
-                    Approved = table.Column<bool>(nullable: true),
-                    HoursWorked = table.Column<float>(nullable: false)
+                    Approved = table.Column<bool>(nullable: false),
+                    HoursWorked = table.Column<TimeSpan>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -230,6 +242,9 @@ namespace timeSheetApplication.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Divisions");
 
             migrationBuilder.DropTable(
                 name: "TimeSheets");

@@ -1,8 +1,7 @@
-using System;
-namespace Zeit.Models
+namespace timeSheetApplication.Models
 {
     public class TimeSheetViewModel
     {
-        public TimeSheetModel[] timeSheets {get; set;} // TODO  Create View page of time sheets
+        public TimeSheetModel Items {get; set;}
     }
 }

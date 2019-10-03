@@ -1,0 +1,20 @@
+<style>
+    .btn-xl {
+        margin-top: 3rem;
+        padding: 1rem 2rem;
+        font-size: 1.75rem;
+        line-height: 1.25;
+        border-radius: .3rem;
+        width: 12rem;
+    }
+</style>
+
+<div class="text-center">
+    @using(Html.BeginForm("ClockIn", "Employee")){
+        <button type="submit" class="btn btn-info btn-xl">Clock In</button>
+    }
+
+    @using(Html.BeginForm("ClockOut", "Employee")){
+        <button type="submit" class="btn btn-secondary btn-xl" style="margin-left: 3;">Clock Out</button>
+    }
+</div>

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace Zeit.Models
+namespace timeSheetApplication.Models
 {
     public class EmployeeModel : IdentityUser
     {

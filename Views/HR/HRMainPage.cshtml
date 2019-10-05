@@ -15,11 +15,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var item in Model.Divisions)
+                @{var col = Model.Divisions.Zip(Model.Managers, (x, y) => new {X = x, Y = y});}
+                @foreach(var item in col)
                 {
                     <tr>
-                        <td>@item.Division</td>
-                        <td>@item.managerId</td>
+                        <td>@item.X.Division</td>
+                        <td>@item.Y.Email</td>
                     </tr>
                 }
             </tbody>

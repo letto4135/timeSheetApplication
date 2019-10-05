@@ -19,19 +19,30 @@ namespace timeSheetApplication.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHRManagerService _HRManagerService;
 
-        public HRManagerController(UserManager<IdentityUser> userManager, IHRManagerService hrManagerService)
+        private readonly IEmployeeService _EmployeeService;
+
+        public HRManagerController(UserManager<IdentityUser> userManager, IHRManagerService hrManagerService, IEmployeeService service)
         {
             _userManager = userManager;
             _HRManagerService = hrManagerService;
+            _EmployeeService = service;
         }
 
         public async Task<IActionResult> HRMainPage()
         {
             var divisions = await _HRManagerService.GetDivisionsAsync();
+            //var managerName = await _EmployeeService.FindEmployeeById(_userManager.GetUserId());
+            IdentityUser[] managers = new IdentityUser[100];
+
+            for(int i = 0; i < divisions.Length; i++)
+            {
+                managers[i] = await _userManager.FindByIdAsync(divisions.ElementAt(i).managerId.ToString());
+            }
 
             var model = new DivisionsViewModel()
             {
-                Divisions = divisions
+                Divisions = divisions,
+                Managers = managers
             };
 
             return View(model);

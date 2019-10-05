@@ -7,10 +7,11 @@ namespace timeSheetApplication.Services
 {
     public interface IHRManagerService
     {
-        Task<bool> CreateDivision(string divisionName);
-        Task<bool> EditDivision(Guid id);
+        Task<bool> CreateDivision(string Manager, string Division);
+        Task<bool> UpdateDivision(string Manager, string Division);
+        Task<bool> RemoveDivision(DivisionModel division);
         Task<bool> SetEmployeeWage(int id);
-
         Task<DivisionModel[]> GetDivisionsAsync();
+        Task<DivisionModel> GetDivisionAsync(string id);
     }
 }

@@ -7,8 +7,7 @@ namespace timeSheetApplication.Services
 {
     public interface IEmployeeService
     {
-        Task<EmployeeModel[]> ViewEmployeesAsync();
-
+        Task<IdentityUser[]> ViewEmployeesAsync();
 
         Task<bool> RemoveEmployeeAsync(String id);
 

@@ -7,5 +7,7 @@ namespace timeSheetApplication.Models
         public DivisionModel[] Divisions { get; set; }
 
         public IdentityUser[] Managers { get; set; }
+
+        public IdentityUser[] Employees { get; set; }
     }
 }

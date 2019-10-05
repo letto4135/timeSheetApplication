@@ -21,7 +21,7 @@ namespace timeSheetApplication.Services
             _userManager = userManager;
         }
 
-        public async Task<EmployeeModel[]> ViewEmployeesAsync()
+        public async Task<IdentityUser[]> ViewEmployeesAsync()
         {
             return await _context.Employees
                 .ToArrayAsync();

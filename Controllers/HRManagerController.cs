@@ -13,7 +13,7 @@ using timeSheetApplication.Services;
 
 namespace timeSheetApplication.Controllers
 {
-    [Authorize(Roles = Constants.HRManager + ", " + Constants.AdministratorRole)]
+    //[Authorize(Roles = Constants.HRManager + ", " + Constants.AdministratorRole)]
     public class HRManagerController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -39,31 +39,45 @@ namespace timeSheetApplication.Controllers
                 managers[i] = await _userManager.FindByIdAsync(divisions.ElementAt(i).managerId.ToString());
             }
 
+            var employees = await _EmployeeService.ViewEmployeesAsync();
+
             var model = new DivisionsViewModel()
             {
                 Divisions = divisions,
-                Managers = managers
+                Managers = managers,
+                Employees = employees
             };
 
             return View(model);
         }
 
-        public async Task<IActionResult> CreateDivision()
+        public async Task<IActionResult> CreateDivision(string Division, string Manager)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser.Id == null) return Challenge();
-            string name = "";
-            var successful = await _HRManagerService.CreateDivision(name);
-            return View("~/Views/HR/CreateDivision.cshtml");
+            var successful = await _HRManagerService.CreateDivision(Manager, Division);
+
+            if(!successful)
+            {
+                return BadRequest("Could not create the division");
+            }
+
+            return RedirectToAction("HRMainPage");
         }
 
-        public async Task<IActionResult> EditDivision(Guid id)
+        public async Task<IActionResult> UpdateDivision(string Division, string Manager)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser.Id == null) return Challenge();
 
-            var successful = await _HRManagerService.EditDivision(id);
-            return View();
+            var successful = await _HRManagerService.UpdateDivision(Manager, Division);
+
+            if(!successful)
+            {
+                return BadRequest("Could not update the division");
+            }
+
+            return RedirectToAction("HRMainPage");
         }
 
         public async Task<IActionResult> SetEmployeeWage(int id)
@@ -73,6 +87,27 @@ namespace timeSheetApplication.Controllers
             
             var successful = await _HRManagerService.SetEmployeeWage(id);
             return View();
+        }
+
+        public async Task<IActionResult> RemoveDivision(Guid id)
+        {
+            var division = await _HRManagerService.GetDivisionAsync(id.ToString());
+
+            if(division == null)
+            {
+                return BadRequest("Could not locate a user to delete user.");
+            }
+            else
+            {
+                var successful = await _HRManagerService.RemoveDivision(division);
+
+                if(!successful)
+                {
+                    return BadRequest("Could not delete division.");
+                }
+
+                return RedirectToAction("HRMainPage");
+            }
         }
     }
 }

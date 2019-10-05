@@ -4,14 +4,35 @@
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+
+<style>
+  .jumbotron-outline {
+    border: 1px solid rgb(224, 224, 224);
+  }
+
+  .text-left, .btn-divisions {
+      margin-top: 1rem;
+  }
+
+</style>
+
 <div class="container">
     <div class="jumbotron">
-        <h1 class="display-4">Divisions</h1>
+        <h1 class="display-4">Division Management</h1>
+        <div class="row">
+            <div class="col-6">
+                @await Html.PartialAsync("_CreateDivision")
+            </div>
+            <div class="col-6">
+                @await Html.PartialAsync("_UpdateDivision")
+            </div>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">Division</th>
                     <th scope="col">Manager</th>
+                    <th scope="col">Delete Division</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +42,12 @@
                     <tr>
                         <td>@item.X.Division</td>
                         <td>@item.Y.Email</td>
+                        <td>
+                            <form asp-controller="HRManager" asp-action="RemoveDivision" method="post">
+                                <button type="submit" class="btn btn-outline-warning">Delete</button>
+                                <input type="hidden" name="id" value="@item.X.id">
+                            </form>
+                        </td>
                     </tr>
                 }
             </tbody>

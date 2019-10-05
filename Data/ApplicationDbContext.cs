@@ -16,7 +16,7 @@ namespace timeSheetApplication.Data
 
         }
 
-        public DbSet<EmployeeModel> Employees { get; set; }
+        public DbSet<IdentityUser> Employees { get; set; }
 
         public DbSet<TimeSheetModel> TimeSheets { get; set; }
 

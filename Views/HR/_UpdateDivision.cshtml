@@ -1,0 +1,24 @@
+@model DivisionsViewModel
+
+<div class="jumbotron jumbotron-outline">
+    <h3>Update Division</h3>
+    <form asp-action="UpdateDivision" method="POST">
+        <h4 class="text-left">Division</h4>
+        <select class="form-control" name="Division" >
+            <option disabled selected>-- Select A Division --</option>
+            @foreach(var item in Model.Divisions)
+            {
+                <option>@item.Division</option>
+            }
+        </select>
+        <h4 class="text-left">Manager</h4>
+        <select class="form-control" name="Manager">
+            <option disabled selected>-- Select A New Manager --</option>
+            @foreach(var item in Model.Employees)
+            {
+                <option>@item.Email</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-info btn-divisions">Update Division</button>
+    </form>
+</div>

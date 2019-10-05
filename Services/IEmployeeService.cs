@@ -9,6 +9,9 @@ namespace timeSheetApplication.Services
     {
         Task<EmployeeModel[]> ViewEmployeesAsync();
 
+
         Task<bool> RemoveEmployeeAsync(String id);
+
+       // Task<EmployeeModel> FindEmployeeById(String id);
     }
 }

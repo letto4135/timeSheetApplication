@@ -52,5 +52,18 @@ namespace timeSheetApplication.Services
             }
             
         }
+
+       /*  public async Task<EmployeeModel> FindEmployeeById(String id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+               return null;
+            }
+            else
+            {
+                return (EmployeeModel) user;
+            }
+        }*/
     }
 }

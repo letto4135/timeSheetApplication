@@ -13,29 +13,48 @@ using timeSheetApplication.Services;
 
 namespace timeSheetApplication.Controllers
 {
-    [Authorize(Roles = Constants.HRManager + " , " + Constants.AdministratorRole)]
+    [Authorize(Roles = Constants.HRManager + ", " + Constants.AdministratorRole)]
     public class HRManagerController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHRManagerService _HRManagerService;
 
-        public HRManagerController(UserManager<IdentityUser> userManager )
+        private readonly IEmployeeService _EmployeeService;
+
+        public HRManagerController(UserManager<IdentityUser> userManager, IHRManagerService hrManagerService, IEmployeeService service)
         {
             _userManager = userManager;
+            _HRManagerService = hrManagerService;
+            _EmployeeService = service;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> HRMainPage()
         {
-            return View();
+            var divisions = await _HRManagerService.GetDivisionsAsync();
+            //var managerName = await _EmployeeService.FindEmployeeById(_userManager.GetUserId());
+            IdentityUser[] managers = new IdentityUser[100];
+
+            for(int i = 0; i < divisions.Length; i++)
+            {
+                managers[i] = await _userManager.FindByIdAsync(divisions.ElementAt(i).managerId.ToString());
+            }
+
+            var model = new DivisionsViewModel()
+            {
+                Divisions = divisions,
+                Managers = managers
+            };
+
+            return View(model);
         }
 
-        public async Task<IActionResult> CreateDivision(Guid id)
+        public async Task<IActionResult> CreateDivision()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser.Id == null) return Challenge();
             string name = "";
-            var successful = await _HRManagerService.CreateDivision(id, name);
-            return View();
+            var successful = await _HRManagerService.CreateDivision(name);
+            return View("~/Views/HR/CreateDivision.cshtml");
         }
 
         public async Task<IActionResult> EditDivision(Guid id)

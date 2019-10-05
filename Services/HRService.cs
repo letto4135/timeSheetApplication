@@ -11,20 +11,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace timeSheetApplication.Services
 {
     
-    public class HRManagerService : IHRManagerService
+    public class HRService : IHRManagerService
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        public HRManagerService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public HRService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
-        public async Task<bool> CreateDivision(Guid managerId, string divisionName)
+        public async Task<bool> CreateDivision(string divisionName)
         {
             var newDivision = new DivisionModel();
             newDivision.id = new Guid();
-            newDivision.managerId = managerId;
             newDivision.Division = divisionName;
             _context.Divisions.Add(newDivision);
 
@@ -38,6 +37,12 @@ namespace timeSheetApplication.Services
         public async Task<bool> SetEmployeeWage(int id)
         {
             return false;
+        }
+
+        public async Task<DivisionModel[]> GetDivisionsAsync()
+        {
+            return await _context.Divisions
+                .ToArrayAsync();
         }
     }
 }

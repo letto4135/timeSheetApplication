@@ -74,3 +74,15 @@ a.navbar-brand {
   .navbar-brand {
     color: rgb(224, 224, 224);
   }
+
+  .jumbotron {
+    margin-top: 3rem;
+    background-color: rgb(86, 102, 173);
+  }
+  .table-striped tbody tr:nth-of-type(odd){
+      background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .table-striped {
+      color: rgb(224, 224, 224);
+  }

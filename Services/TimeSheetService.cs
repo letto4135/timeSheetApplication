@@ -19,10 +19,10 @@ namespace timeSheetApplication.Services
             _context = context;
         }
         
-        public async Task<TimeSheetModel[]> ViewTimeSheetAsync(string user)
+        public async Task<TimeSheetModel[]> ViewTimeSheetAsync(IdentityUser user)
         {
             return await _context.TimeSheets
-                .Where(x => user.Equals(x.Id))
+                .Where(x => x.Exit != null && x.EmployeeId.ToString().Equals(user.Id.ToString()))
                 .ToArrayAsync();
         }
 
@@ -112,7 +112,7 @@ namespace timeSheetApplication.Services
         public async Task<TimeSheetModel[]> ListUnapproved()
         {
             return await _context.TimeSheets
-                .Where(x => x.Approved == false)
+                .Where(x => x.Approved == false && x.Exit != null)
                 .ToArrayAsync();
         }
     }

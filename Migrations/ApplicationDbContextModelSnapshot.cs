@@ -201,7 +201,7 @@ namespace timeSheetApplication.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Approved");
+                    b.Property<bool?>("Approved");
 
                     b.Property<Guid>("EmployeeId");
 
@@ -224,15 +224,13 @@ namespace timeSheetApplication.Migrations
 
                     b.Property<Guid?>("divisonid");
 
-                    b.Property<int>("employeeID");
-
-                    b.Property<bool>("exempt");
+                    b.Property<bool?>("exempt");
 
                     b.Property<string>("firstName");
 
                     b.Property<string>("lastName");
 
-                    b.Property<double>("rate");
+                    b.Property<double?>("rate");
 
                     b.HasIndex("divisonid");
 

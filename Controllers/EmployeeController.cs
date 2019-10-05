@@ -29,10 +29,38 @@ namespace timeSheetApplication.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return Challenge();
-
-            var timeSheetData = _timeSheetService.ViewTimeSheetAsync(currentUser.Id);
+            var employee = await _employeeService.FindEmployeeById(currentUser.Id.ToString());
+            var timeSheetData = await _timeSheetService.ViewTimeSheetAsync(currentUser);
             
-            return View(timeSheetData);
+            var model = new TimeSheetViewModel()
+            {
+                Items = timeSheetData,
+                Employee = employee
+            };
+            string[] enter = new string[25];
+            string[] exit = new string[25];
+            string[] hoursworked = new string[25];
+            string[] gross = new string[25];
+            
+            if(employee != null)
+            {
+                for(int i = 0; i < timeSheetData.Length; i++)
+                {
+                    enter[i] = timeSheetData[i].Enter.ToString("hh:mm:ss");
+                    exit[i] = timeSheetData[i].Exit.Value.ToString("hh:mm:ss");
+                    hoursworked[i] = timeSheetData[i].HoursWorked.Value.ToString(@"hh\:mm\:ss");
+                    gross[i] = ((employee.rate.Value / 60.0) * (timeSheetData[i].HoursWorked.Value.Minutes)).ToString("0.00");
+                }
+            }
+
+            ViewBag.gross = gross;
+            ViewBag.enter = enter;
+            ViewBag.exit = exit;
+            ViewBag.hoursworked = hoursworked;
+            ViewBag.gross = gross;
+
+            //Console.WriteLine(model.ToString());
+            return View(model);
         }
 
         public async Task<IActionResult> ClockIn()
@@ -46,6 +74,7 @@ namespace timeSheetApplication.Controllers
             {
                 Item = currentTime
             };
+
             return View(model);
         }
 
@@ -61,6 +90,6 @@ namespace timeSheetApplication.Controllers
                 return BadRequest("Could not clock out properly.");
             }
             return View();
-        }
+        } 
     }
 }

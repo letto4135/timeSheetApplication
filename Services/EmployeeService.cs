@@ -27,6 +27,8 @@ namespace timeSheetApplication.Services
                 .ToArrayAsync();
         }
 
+        //public async Task<IdentityUser[]> 
+
         // dont need add employee, identity can handle it.
         public async Task<bool> RemoveEmployeeAsync(String id)
         {
@@ -53,17 +55,20 @@ namespace timeSheetApplication.Services
             
         }
 
-       /*  public async Task<EmployeeModel> FindEmployeeById(String id)
+        public async Task<EmployeeModel> FindEmployeeById(String id)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _context.EmployeeModel
+                .Where(x => x.Id.Equals(id))
+                .FirstOrDefaultAsync();
+
             if (user == null)
             {
                return null;
             }
             else
             {
-                return (EmployeeModel) user;
+                return user;
             }
-        }*/
+        }
     }
 }

@@ -11,6 +11,6 @@ namespace timeSheetApplication.Services
 
         Task<bool> RemoveEmployeeAsync(String id);
 
-       // Task<EmployeeModel> FindEmployeeById(String id);
+        Task<EmployeeModel> FindEmployeeById(String id);
     }
 }

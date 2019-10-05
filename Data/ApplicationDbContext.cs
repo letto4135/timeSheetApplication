@@ -11,12 +11,14 @@ namespace timeSheetApplication.Data
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        : base(options)
         {
 
         }
 
         public DbSet<IdentityUser> Employees { get; set; }
+
+        public DbSet<EmployeeModel> EmployeeModel { get; set; }
 
         public DbSet<TimeSheetModel> TimeSheets { get; set; }
 

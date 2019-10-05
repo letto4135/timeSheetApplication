@@ -16,12 +16,12 @@ namespace timeSheetApplication.Controllers
     //[Authorize(Roles = Constants.HRManager + ", " + Constants.AdministratorRole)]
     public class HRManagerController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<EmployeeModel> _userManager;
         private readonly IHRManagerService _HRManagerService;
 
         private readonly IEmployeeService _EmployeeService;
 
-        public HRManagerController(UserManager<IdentityUser> userManager, IHRManagerService hrManagerService, IEmployeeService service)
+        public HRManagerController(UserManager<EmployeeModel> userManager, IHRManagerService hrManagerService, IEmployeeService service)
         {
             _userManager = userManager;
             _HRManagerService = hrManagerService;
@@ -32,7 +32,7 @@ namespace timeSheetApplication.Controllers
         {
             var divisions = await _HRManagerService.GetDivisionsAsync();
             //var managerName = await _EmployeeService.FindEmployeeById(_userManager.GetUserId());
-            IdentityUser[] managers = new IdentityUser[100];
+            EmployeeModel[] managers = new EmployeeModel[100];
 
             for(int i = 0; i < divisions.Length; i++)
             {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace timeSheetApplication.Migrations
 {
-    public partial class addwagetoemployee : Migration
+    public partial class changednullableonsomeattributes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +43,7 @@ namespace timeSheetApplication.Migrations
                     Enter = table.Column<DateTime>(nullable: false),
                     Exit = table.Column<DateTime>(nullable: true),
                     statusMessage = table.Column<string>(nullable: true),
-                    Approved = table.Column<bool>(nullable: false),
+                    Approved = table.Column<bool>(nullable: true),
                     HoursWorked = table.Column<TimeSpan>(nullable: true)
                 },
                 constraints: table =>
@@ -92,7 +92,6 @@ namespace timeSheetApplication.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
-                    employeeID = table.Column<int>(nullable: true),
                     firstName = table.Column<string>(nullable: true),
                     lastName = table.Column<string>(nullable: true),
                     divisonid = table.Column<Guid>(nullable: true),

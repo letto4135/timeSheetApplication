@@ -1,0 +1,28 @@
+@model DivisionsViewModel
+
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Divisions</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Division</th>
+                    <th scope="col">Manager</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.Divisions)
+                {
+                    <tr>
+                        <td>@item.Division</td>
+                        <td>@item.managerId</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -25,17 +25,6 @@ namespace timeSheetApplication.Controllers
             _timeSheetService = service;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            /**
-            index will default to clock in clock out
-             */
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null) return Challenge();
-
-            return View(); // pass in clock in view
-        }
-
         public async Task<IActionResult> CurrentTimeSheet()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -53,9 +42,9 @@ namespace timeSheetApplication.Controllers
 
             var employeeClockIn = await _timeSheetService.ClockInAsync(new Guid(currentUser.Id));
             var currentTime = await _timeSheetService.CurrentClockInAsync(new Guid(currentUser.Id));
-            var model = new TimeSheetViewModel()
+            var model = new CurrentClockInViewModel()
             {
-                Items = currentTime
+                Item = currentTime
             };
             return View(model);
         }

@@ -40,7 +40,14 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="CurrentTimeSheet">See Timesheet</a>
+                                <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="CurrentTimeSheet">See Timesheet</a>
+                            </li>
+                        }
+
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole(Constants.AdministratorRole))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="HRManager" asp-action="HRMainPage">Divisions</a>
                             </li>
                         }
                     </ul>

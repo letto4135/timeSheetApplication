@@ -9,8 +9,8 @@ using timeSheetApplication.Data;
 namespace timeSheetApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191003125112_changing models")]
-    partial class changingmodels
+    [Migration("20191005005911_add wage to employee")]
+    partial class addwagetoemployee
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -184,7 +184,21 @@ namespace timeSheetApplication.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Zeit.Models.TimeSheetModel", b =>
+            modelBuilder.Entity("timeSheetApplication.Models.DivisionModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Division");
+
+                    b.Property<Guid>("managerId");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Divisions");
+                });
+
+            modelBuilder.Entity("timeSheetApplication.Models.TimeSheetModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -206,25 +220,11 @@ namespace timeSheetApplication.Migrations
                     b.ToTable("TimeSheets");
                 });
 
-            modelBuilder.Entity("timeSheetApplication.Models.DivisionModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Division");
-
-                    b.Property<Guid>("managerId");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Divisions");
-                });
-
-            modelBuilder.Entity("Zeit.Models.EmployeeModel", b =>
+            modelBuilder.Entity("timeSheetApplication.Models.EmployeeModel", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<string>("divison");
+                    b.Property<Guid?>("divisonid");
 
                     b.Property<int>("employeeID");
 
@@ -233,6 +233,10 @@ namespace timeSheetApplication.Migrations
                     b.Property<string>("firstName");
 
                     b.Property<string>("lastName");
+
+                    b.Property<double>("rate");
+
+                    b.HasIndex("divisonid");
 
                     b.HasDiscriminator().HasValue("EmployeeModel");
                 });
@@ -280,6 +284,13 @@ namespace timeSheetApplication.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("timeSheetApplication.Models.EmployeeModel", b =>
+                {
+                    b.HasOne("timeSheetApplication.Models.DivisionModel", "divison")
+                        .WithMany()
+                        .HasForeignKey("divisonid");
                 });
 #pragma warning restore 612, 618
         }

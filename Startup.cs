@@ -14,6 +14,7 @@ using timeSheetApplication.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using timeSheetApplication.Services;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace timeSheetApplication
 {
@@ -40,10 +41,17 @@ namespace timeSheetApplication
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<ITimeSheetService, TimeSheetService>();
+            services.AddScoped<IHRManagerService, HRService>();
+
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.ViewLocationExpanders.Add(new TimeSheetViewLocationExpander());
+            });
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -72,8 +80,8 @@ namespace timeSheetApplication
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    name: "Default",
+                    template: "{controller=Home}/{action=Index}");
             });
         }
     }

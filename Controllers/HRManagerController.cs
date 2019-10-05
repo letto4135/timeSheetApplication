@@ -13,29 +13,37 @@ using timeSheetApplication.Services;
 
 namespace timeSheetApplication.Controllers
 {
-    [Authorize(Roles = Constants.HRManager + " , " + Constants.AdministratorRole)]
+    [Authorize(Roles = Constants.HRManager + ", " + Constants.AdministratorRole)]
     public class HRManagerController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHRManagerService _HRManagerService;
 
-        public HRManagerController(UserManager<IdentityUser> userManager )
+        public HRManagerController(UserManager<IdentityUser> userManager, IHRManagerService hrManagerService)
         {
             _userManager = userManager;
+            _HRManagerService = hrManagerService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> HRMainPage()
         {
-            return View();
+            var divisions = await _HRManagerService.GetDivisionsAsync();
+
+            var model = new DivisionsViewModel()
+            {
+                Divisions = divisions
+            };
+
+            return View(model);
         }
 
-        public async Task<IActionResult> CreateDivision(Guid id)
+        public async Task<IActionResult> CreateDivision()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser.Id == null) return Challenge();
             string name = "";
-            var successful = await _HRManagerService.CreateDivision(id, name);
-            return View();
+            var successful = await _HRManagerService.CreateDivision(name);
+            return View("~/Views/HR/CreateDivision.cshtml");
         }
 
         public async Task<IActionResult> EditDivision(Guid id)

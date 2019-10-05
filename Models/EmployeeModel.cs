@@ -8,8 +8,10 @@ namespace timeSheetApplication.Models
         public int employeeID{get;set;}
         public string firstName{get; set;}
         public string lastName{get; set;}
-        public string divison{get; set;}
-        public bool exempt { get; set; }
+        public DivisionModel divison{get; set;}
+        public bool exempt{ get; set; }
+
+        public double rate{get;set;}
     }
 }
 

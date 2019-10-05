@@ -2,6 +2,6 @@ namespace timeSheetApplication.Models
 {
     public class TimeSheetViewModel
     {
-        public TimeSheetModel Items {get; set;}
+        public TimeSheetModel[] Items { get; set; }
     }
 }

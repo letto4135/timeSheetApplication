@@ -3013,33 +3013,6 @@
           }
         }
       },
-      "SharpScss/1.4.0": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/SharpScss.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/SharpScss.dll": {}
-        },
-        "runtimeTargets": {
-          "runtimes/linux-x64/native/libsass.so": {
-            "assetType": "native",
-            "rid": "linux-x64"
-          },
-          "runtimes/osx-x64/native/libsass.dylib": {
-            "assetType": "native",
-            "rid": "osx-x64"
-          },
-          "runtimes/win-x64/native/libsass.dll": {
-            "assetType": "native",
-            "rid": "win-x64"
-          },
-          "runtimes/win-x86/native/libsass.dll": {
-            "assetType": "native",
-            "rid": "win-x86"
-          }
-        }
-      },
       "SQLitePCLRaw.bundle_green/1.1.12": {
         "type": "package",
         "dependencies": {
@@ -7894,34 +7867,6 @@
         "version.txt"
       ]
     },
-    "SharpScss/1.4.0": {
-      "sha512": "hGX//4BVw2ALDSiOHHnXwJldzMOtUnVObtyYDT0Kt0LviKrQ9fSQkh00rddaVExY/tiVLYSEsHzKRkRIOvRGAg==",
-      "type": "package",
-      "path": "sharpscss/1.4.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "build/net20/SharpScss.targets",
-        "build/net35/SharpScss.targets",
-        "build/net40/SharpScss.targets",
-        "lib/net20/SharpScss.dll",
-        "lib/net20/SharpScss.xml",
-        "lib/net35/SharpScss.dll",
-        "lib/net35/SharpScss.xml",
-        "lib/net40/SharpScss.dll",
-        "lib/net40/SharpScss.xml",
-        "lib/netstandard1.3/SharpScss.dll",
-        "lib/netstandard1.3/SharpScss.xml",
-        "lib/netstandard2.0/SharpScss.dll",
-        "lib/netstandard2.0/SharpScss.xml",
-        "runtimes/linux-x64/native/libsass.so",
-        "runtimes/osx-x64/native/libsass.dylib",
-        "runtimes/win-x64/native/libsass.dll",
-        "runtimes/win-x86/native/libsass.dll",
-        "sharpscss.1.4.0.nupkg.sha512",
-        "sharpscss.nuspec"
-      ]
-    },
     "SQLitePCLRaw.bundle_green/1.1.12": {
       "sha512": "U5lZv+E0JBCG5uQngaRgyIAlbzIwRczb0m46XJfLGXovtfVOaMNRY/oGyKAJjdexVrfqLRd+JyopGMySpAZRGQ==",
       "type": "package",
@@ -12464,8 +12409,7 @@
       "Microsoft.AspNetCore.App >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.EntityFrameworkCore.Sqlite >= 2.2.6",
-      "Microsoft.NETCore.App >= 2.2.0",
-      "SharpScss >= 1.4.0"
+      "Microsoft.NETCore.App >= 2.2.0"
     ]
   },
   "packageFolders": {
@@ -12529,10 +12473,6 @@
             "target": "Package",
             "version": "[2.2.0, )",
             "autoReferenced": true
-          },
-          "SharpScss": {
-            "target": "Package",
-            "version": "[1.4.0, )"
           }
         },
         "imports": [

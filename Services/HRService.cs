@@ -88,9 +88,19 @@ namespace timeSheetApplication.Services
             
             return success == 1;
         }
-        public async Task<bool> SetEmployeeWage(int id)
+        public async Task<bool> UpdateEmployee(string Division, string Rate, string Exempt, string id)
         {
-            return false;
+            var employee = await _context.Employees
+                .Where(x => x.Id.ToString().Equals(id))
+                .FirstOrDefaultAsync();
+
+            employee.division = Division;
+            employee.rate = Double.Parse(Rate);
+            employee.exempt = Boolean.Parse(Exempt);
+
+            var success = await _context.SaveChangesAsync();
+
+            return success == 1;
         }
 
         public async Task<DivisionModel[]> GetDivisionsAsync()

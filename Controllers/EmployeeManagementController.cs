@@ -50,19 +50,29 @@ namespace timeSheetApplication.Controllers
         }
         
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveEmployee()
+        public async Task<IActionResult> RemoveEmployee(string id)
         {
-            return null;
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser.Id == null) return Challenge();
+
+            var success = await _EmployeeService.RemoveEmployeeAsync(id);
+
+            if(!success)
+            {
+                return BadRequest("Could not delete user");
+            }
+
+            return RedirectToAction("EmployeeManagement");
         }
 
         [ValidateAntiForgeryToken] 
-        public async Task<IActionResult> UpdateEmployee(int id)
+        public async Task<IActionResult> UpdateEmployee(string Division, string Rate, string Exempt, string id)
         {
-            // var currentUser = await _userManager.GetUserAsync(User);
-            // if (currentUser.Id == null) return Challenge();
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser.Id == null) return Challenge();
             
-            // var successful = await _HRManagerService.SetEmployeeWage(id);
-            return View();
+            var successful = await _HRManagerService.UpdateEmployee(Division, Rate, Exempt, id);
+            return RedirectToAction("EmployeeManagement");
         }
     }
 }

@@ -6,8 +6,8 @@
 @inject UserManager<EmployeeModel> UserManager
 
 <style>
-  .jumbotron-outline {
-    border: 1px solid rgb(224, 224, 224);
+  .jumbotron {
+    border-radius: 5px;
   }
 
   .text-left, .btn-divisions {
@@ -18,72 +18,66 @@
       background-color: transparent;
       border: 1px solid rgb(224, 224, 224);
       color: rgb(224, 224, 224);
+      width: 12rem;
   }
 
 </style>
 
-<div class="container">
-    <div class="jumbotron">
-        <h1 class="display-4">Employee Management</h1>
+<div class="jumbotron jumbotron-fluid">
+    <h1 class="display-4">Employee Management</h1>
 
-        <table class="table table-striped">
-            <thead>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Employee</th>
+                <th scope="col">Division</th>
+                <th scope="col">Wage</th>
+                <th scope="col">Exempt</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.Employees)
+            {
                 <tr>
-                    <th scope="col">Employee</th>
-                    <th scope="col">Division</th>
-                    <th scope="col">Wage</th>
-                    <th scope="col">Exempt</th>
-                    <th scope="col">Update</th>
-                    <th scope="col">Delete</th>
+                    <td class="text-left">@item.Email</td>
+                    <form class="form-inline" asp-controller="EmployeeManagementController" method="POST">
+                        <td>
+                            <select class="form-control the-invisible-man" name="Division">
+                                <option selected>@item.division</option>
+                                @foreach(var i in Model.Divisions)
+                                {
+                                    <option>@i.Division</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control input-sm the-invisible-man" name="Rate" value="@item.rate">
+                        </td>
+                        <td>
+                            <select class="form-control the-invisible-man" name="Exempt">
+                                <option selected>@item.exempt</option>
+                                @if(@item.exempt.Value)
+                                {
+                                    <option>False</option>
+                                }
+                                else
+                                {
+                                    <option>True</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <button asp-action="UpdateEmployee" type="submit" class="btn btn-outline-success">Update</button>
+                        </td>
+                        <td>
+                                <button asp-action="RemoveEmployee" type="submit" class="btn btn-outline-warning">Delete</button>
+                        </td>
+                        <input type="hidden" name="id" value="@item.Id">
+                    </form>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach(var item in Model.Employees)
-                {
-                    <tr>
-                        <td>@item.Email</td>
-                        <form class="form-inline">
-                            <td>
-                                <select class="form-control the-invisible-man" name="Division">
-                                    <option selected>@item.division</option>
-                                    @foreach(var i in Model.Divisions)
-                                    {
-                                        <option>@i.Division</option>
-                                    }
-                                </select>
-                            </td>
-                            <td>
-                                <input type="text" class="form-control input-sm the-invisible-man" name="Rate" value="@item.rate">
-                            </td>
-                            <td>
-                                <select class="form-control the-invisible-man" name="Exempt">
-                                    <option selected>@item.exempt</option>
-                                    @if(@item.exempt.Value)
-                                    {
-                                        <option>False</option>
-                                    }
-                                    else
-                                    {
-                                        <option>True</option>
-                                    }
-                                </select>
-                            </td>
-                            <td>
-                                <form asp-controller="EmployeeManagementController" asp-action="UpdateEmployee" method="post">
-                                    <button type="submit" class="btn btn-outline-success">Update</button>
-                                    <input type="hidden" name="id" value="@item.Id">
-                                </form>
-                            </td>
-                            <td>
-                                <form asp-controller="EmployeeManagementController" asp-action="RemoveEmployee" method="post">
-                                    <button type="submit" class="btn btn-outline-warning">Delete</button>
-                                    <input type="hidden" name="id" value="@item.Id">
-                                </form>
-                            </td>
-                        </form>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
 </div>

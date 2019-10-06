@@ -177,13 +177,13 @@ namespace timeSheetApplication.Migrations
 
                     b.Property<string>("division");
 
-                    b.Property<bool?>("exempt");
+                    b.Property<bool>("exempt");
 
                     b.Property<string>("firstName");
 
                     b.Property<string>("lastName");
 
-                    b.Property<double?>("rate");
+                    b.Property<double>("rate");
 
                     b.HasKey("Id");
 

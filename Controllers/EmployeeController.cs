@@ -49,7 +49,7 @@ namespace timeSheetApplication.Controllers
                     enter[i] = timeSheetData[i].Enter.ToString("hh:mm:ss");
                     exit[i] = timeSheetData[i].Exit.Value.ToString("hh:mm:ss");
                     hoursworked[i] = timeSheetData[i].HoursWorked.Value.ToString(@"hh\:mm\:ss");
-                    gross[i] = ((employee.rate.Value / 60.0) * (timeSheetData[i].HoursWorked.Value.Minutes)).ToString("0.00");
+                    gross[i] = ((employee.rate / 60.0) * (timeSheetData[i].HoursWorked.Value.Minutes)).ToString("0.00");
                 }
             }
 

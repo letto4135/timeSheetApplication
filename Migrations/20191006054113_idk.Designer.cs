@@ -9,8 +9,8 @@ using timeSheetApplication.Data;
 namespace timeSheetApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191006002103_updating for division stuff")]
-    partial class updatingfordivisionstuff
+    [Migration("20191006054113_idk")]
+    partial class idk
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -179,13 +179,13 @@ namespace timeSheetApplication.Migrations
 
                     b.Property<string>("division");
 
-                    b.Property<bool?>("exempt");
+                    b.Property<bool>("exempt");
 
                     b.Property<string>("firstName");
 
                     b.Property<string>("lastName");
 
-                    b.Property<double?>("rate");
+                    b.Property<double>("rate");
 
                     b.HasKey("Id");
 

@@ -8,7 +8,7 @@ namespace timeSheetApplication.Services
 {
     public interface ITimeSheetService
     {
-        Task<TimeSheetModel[]> ViewTimeSheetAsync(string user);
+        Task<TimeSheetModel[]> ViewTimeSheetAsync(EmployeeModel user);
 
         Task<bool> ClockInAsync(Guid id);
 

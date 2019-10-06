@@ -4,8 +4,8 @@
 
 @using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<EmployeeModel> SignInManager
+@inject UserManager<EmployeeModel> UserManager
 
 <ul class="text-center">
 @if (SignInManager.IsSignedIn(User))

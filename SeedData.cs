@@ -16,7 +16,7 @@ namespace timeSheetApplication
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
             await EnsureRolesAsync(roleManager);
 
-            var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = services.GetRequiredService<UserManager<EmployeeModel>>();
             await EnsureTestAdminAsync(userManager);
         }
         
@@ -29,7 +29,7 @@ namespace timeSheetApplication
             await roleManager.CreateAsync(new IdentityRole(Constants.AdministratorRole));
         }
 
-        private static async Task EnsureTestAdminAsync(UserManager<IdentityUser> userManager)
+        private static async Task EnsureTestAdminAsync(UserManager<EmployeeModel> userManager)
         {
             var testAdmin = await userManager.Users
                 .Where(x => x.UserName == "admin@timesheet.local")

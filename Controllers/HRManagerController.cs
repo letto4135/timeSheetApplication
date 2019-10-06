@@ -13,26 +13,25 @@ using timeSheetApplication.Services;
 
 namespace timeSheetApplication.Controllers
 {
-    //[Authorize(Roles = Constants.HRManager + ", " + Constants.AdministratorRole)]
+    [Authorize(Roles = Constants.HRManager + ", " + Constants.AdministratorRole)]
     public class HRManagerController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<EmployeeModel> _userManager;
         private readonly IHRManagerService _HRManagerService;
 
         private readonly IEmployeeService _EmployeeService;
 
-        public HRManagerController(UserManager<IdentityUser> userManager, IHRManagerService hrManagerService, IEmployeeService service)
+        public HRManagerController(UserManager<EmployeeModel> userManager, IHRManagerService hrManagerService, IEmployeeService service)
         {
             _userManager = userManager;
             _HRManagerService = hrManagerService;
             _EmployeeService = service;
         }
-
+        
         public async Task<IActionResult> HRMainPage()
         {
             var divisions = await _HRManagerService.GetDivisionsAsync();
-            //var managerName = await _EmployeeService.FindEmployeeById(_userManager.GetUserId());
-            IdentityUser[] managers = new IdentityUser[100];
+            EmployeeModel[] managers = new EmployeeModel[100];
 
             for(int i = 0; i < divisions.Length; i++)
             {
@@ -50,7 +49,7 @@ namespace timeSheetApplication.Controllers
 
             return View(model);
         }
-
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> CreateDivision(string Division, string Manager)
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -64,7 +63,7 @@ namespace timeSheetApplication.Controllers
 
             return RedirectToAction("HRMainPage");
         }
-
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> UpdateDivision(string Division, string Manager)
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -80,15 +79,7 @@ namespace timeSheetApplication.Controllers
             return RedirectToAction("HRMainPage");
         }
 
-        public async Task<IActionResult> SetEmployeeWage(int id)
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser.Id == null) return Challenge();
-            
-            var successful = await _HRManagerService.SetEmployeeWage(id);
-            return View();
-        }
-
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> RemoveDivision(Guid id)
         {
             var division = await _HRManagerService.GetDivisionAsync(id.ToString());

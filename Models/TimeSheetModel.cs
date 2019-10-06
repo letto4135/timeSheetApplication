@@ -16,7 +16,7 @@ namespace timeSheetApplication.Models
         public DateTime? Exit { get; set; }
         public string? statusMessage{get; set;}
 
-        public bool Approved{get; set;}
+        public bool? Approved{get; set;}
 
         public TimeSpan? HoursWorked { get; set; }
     }

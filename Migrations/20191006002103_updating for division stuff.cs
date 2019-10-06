@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace timeSheetApplication.Migrations
 {
-    public partial class addwagetoemployee : Migration
+    public partial class updatingfordivisionstuff : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,36 @@ namespace timeSheetApplication.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    firstName = table.Column<string>(nullable: true),
+                    lastName = table.Column<string>(nullable: true),
+                    division = table.Column<string>(nullable: true),
+                    exempt = table.Column<bool>(nullable: true),
+                    rate = table.Column<double>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,7 +73,7 @@ namespace timeSheetApplication.Migrations
                     Enter = table.Column<DateTime>(nullable: false),
                     Exit = table.Column<DateTime>(nullable: true),
                     statusMessage = table.Column<string>(nullable: true),
-                    Approved = table.Column<bool>(nullable: false),
+                    Approved = table.Column<bool>(nullable: true),
                     HoursWorked = table.Column<TimeSpan>(nullable: true)
                 },
                 constraints: table =>
@@ -73,44 +103,6 @@ namespace timeSheetApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
-                    employeeID = table.Column<int>(nullable: true),
-                    firstName = table.Column<string>(nullable: true),
-                    lastName = table.Column<string>(nullable: true),
-                    divisonid = table.Column<Guid>(nullable: true),
-                    exempt = table.Column<bool>(nullable: true),
-                    rate = table.Column<double>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Divisions_divisonid",
-                        column: x => x.divisonid,
-                        principalTable: "Divisions",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -135,8 +127,8 @@ namespace timeSheetApplication.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -180,8 +172,8 @@ namespace timeSheetApplication.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -231,11 +223,6 @@ namespace timeSheetApplication.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_divisonid",
-                table: "AspNetUsers",
-                column: "divisonid");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -256,6 +243,9 @@ namespace timeSheetApplication.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Divisions");
+
+            migrationBuilder.DropTable(
                 name: "TimeSheets");
 
             migrationBuilder.DropTable(
@@ -263,9 +253,6 @@ namespace timeSheetApplication.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Divisions");
         }
     }
 }

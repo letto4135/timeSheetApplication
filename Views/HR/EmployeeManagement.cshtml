@@ -1,0 +1,89 @@
+@model DivisionsViewModel
+
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<EmployeeModel> SignInManager
+@inject UserManager<EmployeeModel> UserManager
+
+<style>
+  .jumbotron-outline {
+    border: 1px solid rgb(224, 224, 224);
+  }
+
+  .text-left, .btn-divisions {
+      margin-top: 1rem;
+  }
+
+  .the-invisible-man {
+      background-color: transparent;
+      border: 1px solid rgb(224, 224, 224);
+      color: rgb(224, 224, 224);
+  }
+
+</style>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Employee Management</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Employee</th>
+                    <th scope="col">Division</th>
+                    <th scope="col">Wage</th>
+                    <th scope="col">Exempt</th>
+                    <th scope="col">Update</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.Employees)
+                {
+                    <tr>
+                        <td>@item.Email</td>
+                        <form class="form-inline">
+                            <td>
+                                <select class="form-control the-invisible-man" name="Division">
+                                    <option selected>@item.division</option>
+                                    @foreach(var i in Model.Divisions)
+                                    {
+                                        <option>@i.Division</option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control input-sm the-invisible-man" name="Rate" value="@item.rate">
+                            </td>
+                            <td>
+                                <select class="form-control the-invisible-man" name="Exempt">
+                                    <option selected>@item.exempt</option>
+                                    @if(@item.exempt.Value)
+                                    {
+                                        <option>False</option>
+                                    }
+                                    else
+                                    {
+                                        <option>True</option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <form asp-controller="EmployeeManagementController" asp-action="UpdateEmployee" method="post">
+                                    <button type="submit" class="btn btn-outline-success">Update</button>
+                                    <input type="hidden" name="id" value="@item.Id">
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-controller="EmployeeManagementController" asp-action="RemoveEmployee" method="post">
+                                    <button type="submit" class="btn btn-outline-warning">Delete</button>
+                                    <input type="hidden" name="id" value="@item.Id">
+                                </form>
+                            </td>
+                        </form>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

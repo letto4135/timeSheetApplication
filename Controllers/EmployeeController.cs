@@ -11,14 +11,14 @@ using timeSheetApplication.Services;
 
 namespace timeSheetApplication.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class EmployeeController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<EmployeeModel> _userManager;
         private readonly IEmployeeService _employeeService;
         private readonly ITimeSheetService _timeSheetService;
 
-        public EmployeeController(UserManager<IdentityUser> userManager, IEmployeeService employeeService, ITimeSheetService service)
+        public EmployeeController(UserManager<EmployeeModel> userManager, IEmployeeService employeeService, ITimeSheetService service)
         {
             _userManager = userManager;
             _employeeService = employeeService;
@@ -29,12 +29,40 @@ namespace timeSheetApplication.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return Challenge();
-
-            var timeSheetData = _timeSheetService.ViewTimeSheetAsync(currentUser.Id);
+            var employee = await _employeeService.FindEmployeeById(currentUser.Id.ToString());
+            var timeSheetData = await _timeSheetService.ViewTimeSheetAsync(currentUser);
             
-            return View(timeSheetData);
-        }
+            var model = new TimeSheetViewModel()
+            {
+                Items = timeSheetData,
+                Employee = employee
+            };
+            string[] enter = new string[25];
+            string[] exit = new string[25];
+            string[] hoursworked = new string[25];
+            string[] gross = new string[25];
+            
+            if(employee != null)
+            {
+                for(int i = 0; i < timeSheetData.Length; i++)
+                {
+                    enter[i] = timeSheetData[i].Enter.ToString("hh:mm:ss");
+                    exit[i] = timeSheetData[i].Exit.Value.ToString("hh:mm:ss");
+                    hoursworked[i] = timeSheetData[i].HoursWorked.Value.ToString(@"hh\:mm\:ss");
+                    gross[i] = ((employee.rate.Value / 60.0) * (timeSheetData[i].HoursWorked.Value.Minutes)).ToString("0.00");
+                }
+            }
 
+            ViewBag.gross = gross;
+            ViewBag.enter = enter;
+            ViewBag.exit = exit;
+            ViewBag.hoursworked = hoursworked;
+            ViewBag.gross = gross;
+
+            //Console.WriteLine(model.ToString());
+            return View(model);
+        }
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> ClockIn()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -46,9 +74,10 @@ namespace timeSheetApplication.Controllers
             {
                 Item = currentTime
             };
+
             return View(model);
         }
-
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> ClockOut()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -61,6 +90,6 @@ namespace timeSheetApplication.Controllers
                 return BadRequest("Could not clock out properly.");
             }
             return View();
-        }
+        } 
     }
 }

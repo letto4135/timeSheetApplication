@@ -12413,23 +12413,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Chris\\.nuget\\packages\\": {},
+    "C:\\Users\\ejhsc\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Chris\\Desktop\\timeSheetApplication\\timeSheetApplication.csproj",
+      "projectUniqueName": "G:\\programming\\allProgrammingStuff\\timeSheetApplication\\timeSheetApplication.csproj",
       "projectName": "timeSheetApplication",
-      "projectPath": "C:\\Users\\Chris\\Desktop\\timeSheetApplication\\timeSheetApplication.csproj",
-      "packagesPath": "C:\\Users\\Chris\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Chris\\Desktop\\timeSheetApplication\\obj\\",
+      "projectPath": "G:\\programming\\allProgrammingStuff\\timeSheetApplication\\timeSheetApplication.csproj",
+      "packagesPath": "C:\\Users\\ejhsc\\.nuget\\packages\\",
+      "outputPath": "G:\\programming\\allProgrammingStuff\\timeSheetApplication\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Chris\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ejhsc\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -12476,16 +12476,10 @@
           }
         },
         "imports": [
-          "net461",
-          "net462",
-          "net47",
-          "net471",
-          "net472",
-          "net48"
+          "net461"
         ],
         "assetTargetFallback": true,
-        "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        "warn": true
       }
     }
   }

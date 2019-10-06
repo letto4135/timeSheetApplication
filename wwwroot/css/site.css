@@ -60,9 +60,14 @@ a.navbar-brand {
     background-color:rgb(86, 102, 173) !important;
     height: 150px;
   }
+
+  .navbar {
+    height: 100%;
+  }
   
   .nav-link {
     color: rgb(224, 224, 224);
+    border-left: 1px solid rgb(224, 224, 224);
   }
   
   

@@ -19,7 +19,7 @@ namespace timeSheetApplication.Services
             _context = context;
         }
         
-        public async Task<TimeSheetModel[]> ViewTimeSheetAsync(IdentityUser user)
+        public async Task<TimeSheetModel[]> ViewTimeSheetAsync(EmployeeModel user)
         {
             return await _context.TimeSheets
                 .Where(x => x.Exit != null && x.EmployeeId.ToString().Equals(user.Id.ToString()))

@@ -11,14 +11,14 @@ using timeSheetApplication.Services;
 
 namespace timeSheetApplication.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class EmployeeController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<EmployeeModel> _userManager;
         private readonly IEmployeeService _employeeService;
         private readonly ITimeSheetService _timeSheetService;
 
-        public EmployeeController(UserManager<IdentityUser> userManager, IEmployeeService employeeService, ITimeSheetService service)
+        public EmployeeController(UserManager<EmployeeModel> userManager, IEmployeeService employeeService, ITimeSheetService service)
         {
             _userManager = userManager;
             _employeeService = employeeService;
@@ -62,7 +62,7 @@ namespace timeSheetApplication.Controllers
             //Console.WriteLine(model.ToString());
             return View(model);
         }
-
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> ClockIn()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -77,7 +77,7 @@ namespace timeSheetApplication.Controllers
 
             return View(model);
         }
-
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> ClockOut()
         {
             var currentUser = await _userManager.GetUserAsync(User);

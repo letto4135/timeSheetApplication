@@ -15,8 +15,8 @@ namespace timeSheetApplication.Services
     public class HRService : IHRManagerService
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        public HRService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        private readonly UserManager<EmployeeModel> _userManager;
+        public HRService(ApplicationDbContext context, UserManager<EmployeeModel> userManager)
         {
             _context = context;
             _userManager = userManager;

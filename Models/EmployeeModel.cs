@@ -7,10 +7,10 @@ namespace timeSheetApplication.Models
     {
         public string firstName{get; set;}
         public string lastName{get; set;}
-        public DivisionModel divison{get; set;}
+        public string? division{get; set;}
         public bool? exempt{ get; set; }
-
         public double? rate{get;set;}
+
     }
 }
 

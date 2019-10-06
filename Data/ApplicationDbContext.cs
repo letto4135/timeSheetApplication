@@ -8,7 +8,7 @@ using timeSheetApplication.Models;
 
 namespace timeSheetApplication.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<EmployeeModel>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -16,9 +16,7 @@ namespace timeSheetApplication.Data
 
         }
 
-        public DbSet<IdentityUser> Employees { get; set; }
-
-        public DbSet<EmployeeModel> EmployeeModel { get; set; }
+        public DbSet<EmployeeModel> Employees { get; set; }
 
         public DbSet<TimeSheetModel> TimeSheets { get; set; }
 

@@ -13,21 +13,21 @@ namespace timeSheetApplication.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<EmployeeModel> _userManager;
 
-        public EmployeeService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public EmployeeService(ApplicationDbContext context, UserManager<EmployeeModel> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
-        public async Task<IdentityUser[]> ViewEmployeesAsync()
+        public async Task<EmployeeModel[]> ViewEmployeesAsync()
         {
             return await _context.Employees
                 .ToArrayAsync();
         }
 
-        //public async Task<IdentityUser[]> 
+        //public async Task<EmployeeModel[]> 
 
         // dont need add employee, identity can handle it.
         public async Task<bool> RemoveEmployeeAsync(String id)
@@ -57,7 +57,7 @@ namespace timeSheetApplication.Services
 
         public async Task<EmployeeModel> FindEmployeeById(String id)
         {
-            var user = await _context.EmployeeModel
+            var user = await _context.Employees
                 .Where(x => x.Id.Equals(id))
                 .FirstOrDefaultAsync();
 

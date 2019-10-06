@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<EmployeeModel> SignInManager
+@inject UserManager<EmployeeModel> UserManager
 
 <!DOCTYPE html>
 <html>
@@ -43,8 +43,15 @@
                                 <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="CurrentTimeSheet">See Timesheet</a>
                             </li>
                         }
-
-                        @if (SignInManager.IsSignedIn(User) && User.IsInRole(Constants.AdministratorRole))
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole(Constants.HRManager)
+                        || User.IsInRole(Constants.Manager) || User.IsInRole(Constants.AdministratorRole))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="EmployeeManagement" asp-action="EmployeeManagement">Manage Employees</a>
+                            </li>
+                        }
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole(Constants.AdministratorRole)
+                        || User.IsInRole(Constants.HRManager))
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="HRManager" asp-action="HRMainPage">Divisions</a>

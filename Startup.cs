@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using timeSheetApplication.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
+using timeSheetApplication.Models;
 
 namespace timeSheetApplication
 {
@@ -40,8 +41,9 @@ namespace timeSheetApplication
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<EmployeeModel, IdentityUser>()
                 .AddRoles<IdentityRole>()
+                .AddDefaultTokenProviders()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IEmployeeService, EmployeeService>();

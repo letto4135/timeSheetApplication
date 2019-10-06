@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace timeSheetApplication.Migrations
 {
-    public partial class updatingfordivisionstuff : Migration
+    public partial class idk : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,8 +43,8 @@ namespace timeSheetApplication.Migrations
                     firstName = table.Column<string>(nullable: true),
                     lastName = table.Column<string>(nullable: true),
                     division = table.Column<string>(nullable: true),
-                    exempt = table.Column<bool>(nullable: true),
-                    rate = table.Column<double>(nullable: true)
+                    exempt = table.Column<bool>(nullable: false),
+                    rate = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {

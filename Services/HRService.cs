@@ -35,7 +35,7 @@ namespace timeSheetApplication.Services
             // if new manager is already a manager or division alread exists return false
             foreach(var division in divisions)
             {
-                if(manager.Id.Equals(division.managerId.ToString()))
+                if(manager.Id.Equals(division.managerId.ToString()) || division.Division.Equals(Division))
                 {
                     return false;
                 }
@@ -47,24 +47,38 @@ namespace timeSheetApplication.Services
             // Set division
             newDivision.Division = Division;
 
+            // Set employee division to division they are a manager of
+            manager.division = Division;
+            manager.exempt = true;
+
+            _context.Employees.Update(manager);
+
+            var save = await _context.SaveChangesAsync();
+
             // Add to db
             _context.Divisions.Add(newDivision);
+
             // Save db
             var saveResult = await _context.SaveChangesAsync();
-            return saveResult == 1;
+
+            return saveResult == 1 && save == 1;
         }
         public async Task<bool> UpdateDivision(string Manager, string Division)
         {
+            // get division being updated
             var division = await _context.Divisions
                 .Where(x => x.Division.Equals(Division))
                 .FirstAsync();
 
+            // if not found return false
             if(division == null) return false;
 
+            // get the employee who is going to be the new manager
             var manager = await _userManager.FindByEmailAsync(Manager);
 
+            // get all the divisions
             var divisions = await _context.Divisions.ToArrayAsync();
-
+            // check that the employee about to become a manager is not already a manager
             foreach(var division2 in divisions)
             {
                 if(manager.Id.Equals(division2.managerId.ToString()))
@@ -73,11 +87,20 @@ namespace timeSheetApplication.Services
                 }
             }
 
+            // get the old division manager
+            var oldManager = await _userManager.FindByIdAsync(division.managerId.ToString());
+            // set the old managers exempt status to false and save
+            oldManager.exempt = false;
+            var saveOldManager = await _context.SaveChangesAsync();
+            // set the division managerId to be the id of the new manager and save
             division.managerId = new Guid(manager.Id);
-
-            var saveResult = await _context.SaveChangesAsync();
-
-            return true;
+            var saveNewManagerToDivision = await _context.SaveChangesAsync();
+            // set the new managers exempt to true and save
+            manager.exempt = true;
+            manager.division = Division;
+            var saveEmployeeInstance = await _context.SaveChangesAsync();
+            // ensure that all 3 saves completed successfully.// whe
+            return saveEmployeeInstance == 1 && saveOldManager == 1 && saveNewManagerToDivision == 1;
         }
 
         public async Task<bool> RemoveDivision(DivisionModel division)
@@ -88,24 +111,11 @@ namespace timeSheetApplication.Services
             
             return success == 1;
         }
-        public async Task<bool> UpdateEmployee(string Division, string Rate, string Exempt, string id)
-        {
-            var employee = await _context.Employees
-                .Where(x => x.Id.ToString().Equals(id))
-                .FirstOrDefaultAsync();
-
-            employee.division = Division;
-            employee.rate = Double.Parse(Rate);
-            employee.exempt = Boolean.Parse(Exempt);
-
-            var success = await _context.SaveChangesAsync();
-
-            return success == 1;
-        }
 
         public async Task<DivisionModel[]> GetDivisionsAsync()
         {
             return await _context.Divisions
+                .OrderBy(x => x.Division)
                 .ToArrayAsync();
         }
 

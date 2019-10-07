@@ -202,7 +202,7 @@ namespace timeSheetApplication.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("Approved");
+                    b.Property<int>("Approved");
 
                     b.Property<Guid>("EmployeeId");
 

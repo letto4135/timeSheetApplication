@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace timeSheetApplication.Migrations
 {
-    public partial class idk : Migration
+    public partial class changingtimesheetmodelapprovedtoint : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,7 +73,7 @@ namespace timeSheetApplication.Migrations
                     Enter = table.Column<DateTime>(nullable: false),
                     Exit = table.Column<DateTime>(nullable: true),
                     statusMessage = table.Column<string>(nullable: true),
-                    Approved = table.Column<bool>(nullable: true),
+                    Approved = table.Column<int>(nullable: false),
                     HoursWorked = table.Column<TimeSpan>(nullable: true)
                 },
                 constraints: table =>

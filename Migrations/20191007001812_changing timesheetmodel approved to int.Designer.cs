@@ -9,8 +9,8 @@ using timeSheetApplication.Data;
 namespace timeSheetApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191006054113_idk")]
-    partial class idk
+    [Migration("20191007001812_changing timesheetmodel approved to int")]
+    partial class changingtimesheetmodelapprovedtoint
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -204,7 +204,7 @@ namespace timeSheetApplication.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("Approved");
+                    b.Property<int>("Approved");
 
                     b.Property<Guid>("EmployeeId");
 

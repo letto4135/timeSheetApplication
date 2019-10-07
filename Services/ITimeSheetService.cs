@@ -8,16 +8,13 @@ namespace timeSheetApplication.Services
 {
     public interface ITimeSheetService
     {
-        Task<TimeSheetModel[]> ViewTimeSheetAsync(EmployeeModel user);
-
+        Task<TimeSheetModel[]> ViewTimeSheetAsync(EmployeeModel user, DateTime currentDate);
         Task<bool> ClockInAsync(Guid id);
-
         Task<TimeSheetModel> CurrentClockInAsync(Guid id);
-
         Task<bool> ClockOutAsync(Guid id);
-
         Task<bool> ApproveTimeAsync(Guid id);
-
-        Task<TimeSheetModel[]> ListUnapproved();
+        Task<TimeSheetModel[]> ListUnapprovedAsync();
+        Task<bool> MassApproveAsync(String[] id);
+        Task<bool> AddTimeSheet(TimeSheetModel timeSheet);
     }
 }

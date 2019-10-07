@@ -15,10 +15,7 @@
   }
 
   .the-invisible-man {
-      background-color: transparent;
-      border: 1px solid rgb(224, 224, 224);
-      color: rgb(224, 224, 224);
-      width: 12rem;
+      width: 13rem;
   }
 
 </style>
@@ -42,7 +39,7 @@
             {
                 <tr>
                     <td class="text-left">@item.Email</td>
-                    <form class="form-inline" asp-controller="EmployeeManagementController" method="POST">
+                    <form class="form-inline" asp-controller="EmployeeManagement" method="POST">
                         <td>
                             <select class="form-control the-invisible-man" name="Division">
                                 <option selected>@item.division</option>

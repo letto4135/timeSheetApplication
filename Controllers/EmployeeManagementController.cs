@@ -59,7 +59,7 @@ namespace timeSheetApplication.Controllers
 
             if(!success)
             {
-                return BadRequest("Could not delete user");
+                return BadRequest("Could not delete user, are they a manager? Managers cannot be deleted. Change manager first.");
             }
 
             return RedirectToAction("EmployeeManagement");
@@ -71,7 +71,12 @@ namespace timeSheetApplication.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser.Id == null) return Challenge();
             
-            var successful = await _HRManagerService.UpdateEmployee(Division, Rate, Exempt, id);
+            var successful = await _EmployeeService.UpdateEmployee(Division, Rate, Exempt, id);
+
+            if(! successful)
+            {
+                return BadRequest("Is the employee a manager? You may be trying to remove them from the division they manage.");
+            }
             return RedirectToAction("EmployeeManagement");
         }
     }

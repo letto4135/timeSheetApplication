@@ -19,18 +19,24 @@ namespace timeSheetApplication.Services
             _context = context;
         }
         
-        public async Task<TimeSheetModel[]> ViewTimeSheetAsync(EmployeeModel user)
+        public async Task<TimeSheetModel[]> ViewTimeSheetAsync(EmployeeModel user, DateTime currentDate)
         {
+            DateTime dateToPull;
+            if(currentDate.Day > 15)
+            {
+                dateToPull = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 16);
+            }
+            else
+            {
+                dateToPull = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            }
             return await _context.TimeSheets
                 .Where(x => x.Exit != null && x.EmployeeId.ToString().Equals(user.Id.ToString()))
+                .Where(x => x.Enter >= dateToPull)
+                .OrderBy(x => x.Enter)
                 .ToArrayAsync();
         }
 
-
-        //
-        //Im pretty sure some of these methods below will actually go into the controller rather than this service class
-        // clock in, clockout 
-        //
         public async Task<bool> ClockInAsync(Guid id)
         {
             var alreadyClockedIn = await _context.TimeSheets
@@ -44,7 +50,7 @@ namespace timeSheetApplication.Services
             else
             {
                 var newTime = new TimeSheetModel();
-                newTime.Approved = false;
+                newTime.Approved = 0;
                 newTime.Id = new Guid();
                 newTime.EmployeeId = id;
                 newTime.statusMessage = "";
@@ -69,7 +75,7 @@ namespace timeSheetApplication.Services
         {
             var update = await _context.TimeSheets
                 .SingleOrDefaultAsync(x => x.Exit == null &&
-                                      x.EmployeeId.Equals(id));
+                                      x.EmployeeId.Equals(id));    
 
             if(update != null)
             {
@@ -77,6 +83,13 @@ namespace timeSheetApplication.Services
                 DateTime enter = update.Enter;
                 update.Exit = exit;
                 update.HoursWorked = exit.Subtract(enter);
+
+                if(update.HoursWorked.Value.Minutes < 1)
+                {
+                    _context.Remove(update);
+                    var success = await _context.SaveChangesAsync();
+                    return success == 1;
+                }
                  
                 if (update.HoursWorked > TimeSpan.FromHours(22))
                 {
@@ -102,18 +115,53 @@ namespace timeSheetApplication.Services
 
             if(update == null) return false;
 
-            update.Approved = true;
+            update.Approved = 1;
 
             var saveResult = await _context.SaveChangesAsync();
 
             return saveResult == 1;
         }
 
-        public async Task<TimeSheetModel[]> ListUnapproved()
+        public async Task<TimeSheetModel[]> ListUnapprovedAsync()
         {
             return await _context.TimeSheets
-                .Where(x => x.Approved == false && x.Exit != null)
+                .Where(x => x.Approved == 0 && x.Exit != null)
                 .ToArrayAsync();
         }
+
+        public async Task<bool> MassApproveAsync(String[] id)
+        {
+            var timeSheets = await _context.TimeSheets
+                .Where(x => x.Approved == 0)
+                .ToArrayAsync();
+            var saveResult = 1;
+            foreach(var time in id)
+            {
+                for(int i = 0; i < timeSheets.Length; i++)
+                {
+                    if(timeSheets[i].Id.ToString().Equals(time))
+                    {
+                        if(saveResult == 1)
+                        {
+                            timeSheets[i].Approved = 1;
+                            saveResult = await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+
+                }
+            }
+
+            return saveResult == 1;
+        }
+
+       public async Task<bool> AddTimeSheet(TimeSheetModel timeSheet)
+       {
+           _context.TimeSheets.Add(timeSheet);
+           return await _context.SaveChangesAsync() == 1;
+       }
     }
 }

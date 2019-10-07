@@ -92,3 +92,8 @@ a.navbar-brand {
       color: rgb(224, 224, 224);
   }
 
+  .the-invisible-man {
+    background-color: transparent;
+    border: 1px solid rgb(224, 224, 224);
+    color: rgb(224, 224, 224);
+}

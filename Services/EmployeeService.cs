@@ -24,12 +24,10 @@ namespace timeSheetApplication.Services
         public async Task<EmployeeModel[]> ViewEmployeesAsync()
         {
             return await _context.Employees
+                .OrderBy(x => x.Email)
                 .ToArrayAsync();
         }
 
-        //public async Task<EmployeeModel[]> 
-
-        // dont need add employee, identity can handle it.
         public async Task<bool> RemoveEmployeeAsync(String id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -44,13 +42,23 @@ namespace timeSheetApplication.Services
             }
             else
             {
+                var divisions = await _context.Divisions
+                .ToArrayAsync();
+
+                // loop through divisions
+                foreach(var division in divisions)
+                {
+                    // checking if the manager is the employee being deleted
+                    if(division.managerId.ToString().Equals(id))
+                    {
+                        // if it is, dont delete, return false instead.
+                        return false;
+                    }
+                }
+
                 var success = await _userManager.DeleteAsync(user);
 
-                if(!success.Succeeded)
-                {
-                    return false;
-                }
-                return true;
+                return success.Succeeded;
             }
             
         }
@@ -69,6 +77,40 @@ namespace timeSheetApplication.Services
             {
                 return user;
             }
+        }
+
+        public async Task<bool> UpdateEmployee(string Division, string Rate, string Exempt, string id)
+        {
+            var employee = await _context.Employees
+                .Where(x => x.Id.ToString().Equals(id))
+                .FirstOrDefaultAsync();
+            
+            var divisions = await _context.Divisions
+                .ToArrayAsync();
+
+            // loop through divisions
+            foreach(var division in divisions)
+            {
+                // checking if the manager is the employee being updated
+                if(division.managerId.ToString().Equals(id))
+                {
+                    // if manager is the employee to be updated
+                    // check that the division is not being updated
+                    // if it is return false
+                    if(! division.Division.Equals(Division))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            employee.division = Division;
+            employee.rate = Double.Parse(Rate);
+            employee.exempt = Boolean.Parse(Exempt);
+
+            var success = await _context.SaveChangesAsync();
+
+            return success == 1;
         }
     }
 }

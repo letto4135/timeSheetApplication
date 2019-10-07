@@ -57,6 +57,20 @@
                                 <a class="nav-link" asp-area="" asp-controller="HRManager" asp-action="HRMainPage">Divisions</a>
                             </li>
                         }
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole(Constants.AdministratorRole)
+                        || User.IsInRole(Constants.HRManager) || User.IsInRole(Constants.Manager))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="TimeSheet" asp-action="Index">Unapproved Time</a>
+                            </li>
+                        }
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole(Constants.AdministratorRole)
+                        || User.IsInRole(Constants.HRManager))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="TimeSheet" asp-action="PrintChecks">Payroll</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

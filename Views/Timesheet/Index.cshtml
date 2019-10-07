@@ -1,5 +1,61 @@
-@Model Zeit.Models.TimeSheetViewModel;
-
-@{
-    ViewData["Title"] = "Clock in";
+@model AllTimeSheetsViewModel
+<style>
+.form-control-sm {
+    height: calc(2em);
 }
+.table td {
+    vertical-align: middle;
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" />
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Unapproved Timesheets</h1>
+        <div class="row">
+            <div class="col-6 text-left" style="margin-bottom:1rem">
+                <form method="POST" asp-controller="TimeSheet">
+                    <td>
+                        <button asp-action="MassApprove" type="submit" class="btn btn-outline-success">Approve All</button>
+                    </td>
+                </form>
+            </div>
+            <div class="col-6">
+                
+            </div>  
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Employee</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Clock in</th>
+                    <th scope="col">Clock out</th>
+                    <th scope="col">Hours worked</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Gross</th>
+                    <th scope="col">Status Message</th>
+                    <th scope="col">Deny</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(int i = 0; i < Model.Items.Length && i < 25; i++)
+                {
+                    <tr>
+                        <td style="text-left">@ViewBag.employee[i]</td>
+                        <td>@ViewBag.date[i]</td>
+                        <td>@ViewBag.enter[i]</td>
+                        <td>@ViewBag.exit[i]</td>
+                        <td>@ViewBag.hoursworked[i]</td>
+                        <td>@ViewBag.rates[i]</td>
+                        <td>@ViewBag.gross[i]</td>
+                        <td><input name="Message" class="form-control form-control-sm the-invisible-man" type="text"/></td>
+                        <td>
+                            <button asp-action="DenyTime" type="submit" class="btn btn-outline-warning">Deny</button>
+                        </td>
+                        <input type="hidden" name="TimesheetId" value="@Model.Items[i].Id">
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

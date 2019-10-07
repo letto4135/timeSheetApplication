@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" />
 <div class="container">
     <div class="jumbotron text-center">
-        <h1 class="display-4">---Pay period dates here.---</h1>
+        <h1 class="display-4">@ViewBag.beginDate - @ViewBag.endDate</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -19,7 +19,7 @@
                 @for(int i = 0; i < Model.Items.Length; i++)
                 {
                     <tr>
-                        <td>Date</td>
+                        <td>@ViewBag.date[i]</td>
                         <td>@ViewBag.enter[i]</td>
                         <td>@ViewBag.exit[i]</td>
                         <td>@ViewBag.hoursworked[i]</td>
@@ -32,12 +32,15 @@
                             <td>Still broke yo</td>
                         }
                         <td>@ViewBag.Gross[i]</td>
-                        @if(@Model.Items[i].Approved.Value)
+                        @if(@Model.Items[i].Approved == 1)
                         {
                             <td><i class="fas fa-check"></i></td>
-                        }else
+                        }else if(@Model.Items[i].Approved == 0)
                         {
                             <td><i class="fas fa-times"></i></td>
+                        }else
+                        {
+                            <td><i class="fas fa-ban"></i></td>
                         }
                         
                     </tr>

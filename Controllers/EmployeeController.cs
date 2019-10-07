@@ -30,7 +30,7 @@ namespace timeSheetApplication.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return Challenge();
             var employee = await _employeeService.FindEmployeeById(currentUser.Id.ToString());
-            var timeSheetData = await _timeSheetService.ViewTimeSheetAsync(currentUser);
+            var timeSheetData = await _timeSheetService.ViewTimeSheetAsync(currentUser, DateTime.Now);
             
             var model = new TimeSheetViewModel()
             {
@@ -41,25 +41,27 @@ namespace timeSheetApplication.Controllers
             string[] exit = new string[25];
             string[] hoursworked = new string[25];
             string[] gross = new string[25];
-            
+            string[] date = new string[25];
             if(employee != null)
             {
                 for(int i = 0; i < timeSheetData.Length; i++)
                 {
-                    enter[i] = timeSheetData[i].Enter.ToString("hh:mm:ss");
-                    exit[i] = timeSheetData[i].Exit.Value.ToString("hh:mm:ss");
-                    hoursworked[i] = timeSheetData[i].HoursWorked.Value.ToString(@"hh\:mm\:ss");
-                    gross[i] = ((employee.rate / 60.0) * (timeSheetData[i].HoursWorked.Value.Minutes)).ToString("0.00");
+                    date[i] = timeSheetData[i].Enter.Date.ToString("MM/dd/yyyy");
+                    enter[i] = timeSheetData[i].Enter.ToString("hh:mm");
+                    exit[i] = timeSheetData[i].Exit.Value.ToString("hh:mm");
+                    hoursworked[i] = timeSheetData[i].HoursWorked.Value.ToString(@"hh\:mm");
+                    gross[i] = ((employee.rate / 60.0) * Math.Round(timeSheetData[i].HoursWorked.Value.TotalMinutes)).ToString("0.00");
                 }
             }
 
-            ViewBag.gross = gross;
+            ViewBag.beginDate = date[0];
+            ViewBag.endDate = DateTime.Now.ToString("MM/dd/yyyy");
+            ViewBag.date = date;
             ViewBag.enter = enter;
             ViewBag.exit = exit;
             ViewBag.hoursworked = hoursworked;
             ViewBag.gross = gross;
 
-            //Console.WriteLine(model.ToString());
             return View(model);
         }
         [ValidateAntiForgeryToken] 

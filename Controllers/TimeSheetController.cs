@@ -37,14 +37,14 @@ namespace timeSheetApplication.Controllers
                     Items = timeSheetData
                 };
 
-                string[] enter = new string[25];
-                string[] exit = new string[25];
-                string[] hoursworked = new string[25];
-                string[] date = new string[25];
-                string[] rates = new string[25];
-                string[] gross = new string[25];
-                string[] employee = new string[25];
-                for(int i = 0; i < timeSheetData.Length && i < 25; i++)
+                string[] enter = new string[10];
+                string[] exit = new string[10];
+                string[] hoursworked = new string[10];
+                string[] date = new string[10];
+                string[] rates = new string[10];
+                string[] gross = new string[10];
+                string[] employee = new string[10];
+                for(int i = 0; i < timeSheetData.Length && i < 10; i++)
                 {
                     date[i] = timeSheetData[i].Enter.Date.ToString("MM/dd/yyyy");
                     enter[i] = timeSheetData[i].Enter.ToString("hh:mm");
@@ -81,9 +81,9 @@ namespace timeSheetApplication.Controllers
         public async Task<IActionResult> MassApprove()
         {
             var timeSheetData = await _timeSheetService.ListUnapprovedAsync();
-            string[] timesheets = new string[25];
+            string[] timesheets = new string[10];
 
-            for(int i = 0; i < timeSheetData.Length && i < 25; i++)
+            for(int i = 0; i < timeSheetData.Length && i < 10; i++)
             {
                 timesheets[i] = timeSheetData[i].Id.ToString();
             }

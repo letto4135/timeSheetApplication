@@ -37,11 +37,11 @@ namespace timeSheetApplication.Controllers
                 Items = timeSheetData,
                 Employee = employee
             };
-            string[] enter = new string[25];
-            string[] exit = new string[25];
-            string[] hoursworked = new string[25];
-            string[] gross = new string[25];
-            string[] date = new string[25];
+            string[] enter = new string[10];
+            string[] exit = new string[10];
+            string[] hoursworked = new string[10];
+            string[] gross = new string[10];
+            string[] date = new string[10];
             if(employee != null)
             {
                 for(int i = 0; i < timeSheetData.Length; i++)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using timeSheetApplication.Models;
@@ -10,6 +11,9 @@ using timeSheetApplication.Services;
 
 namespace timeSheetApplication.Controllers
 {
+    [Authorize(Roles= Constants.AdministratorRole + ", "
+         + Constants.HRManager + ", "
+         + Constants.Manager)]
     public class TimeSheetController : Controller
     {
         private readonly UserManager<EmployeeModel> _userManager;

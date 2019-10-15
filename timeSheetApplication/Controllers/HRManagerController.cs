@@ -13,12 +13,11 @@ using timeSheetApplication.Services;
 
 namespace timeSheetApplication.Controllers
 {
-    [Authorize(Roles = Constants.HRManager + ", " + Constants.AdministratorRole)]
+    [Authorize(Roles = Constants.HRManager + ", " + Constants.AdministratorRole)] // authorize only HrManager and Admin roles to acess this
     public class HRManagerController : Controller
     {
         private readonly UserManager<EmployeeModel> _userManager;
         private readonly IHRManagerService _HRManagerService;
-
         private readonly IEmployeeService _EmployeeService;
 
         public HRManagerController(UserManager<EmployeeModel> userManager, IHRManagerService hrManagerService, IEmployeeService service)
@@ -27,7 +26,11 @@ namespace timeSheetApplication.Controllers
             _HRManagerService = hrManagerService;
             _EmployeeService = service;
         }
-        
+        /// <summary>
+        /// This method allows you to create a division and select a manager
+        /// or it will allow you to update a division
+        /// /// </summary>
+        /// <returns>ViewModel Of the divisions</returns>
         public async Task<IActionResult> HRMainPage()
         {
             var divisions = await _HRManagerService.GetDivisionsAsync();
@@ -50,11 +53,11 @@ namespace timeSheetApplication.Controllers
             return View(model);
         }
         [ValidateAntiForgeryToken] 
-        public async Task<IActionResult> CreateDivision(string Division, string Manager)
+        public async Task<IActionResult> CreateDivision(string Division, string ManagerEmail)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser.Id == null) return Challenge();
-            var successful = await _HRManagerService.CreateDivision(Manager, Division);
+            var successful = await _HRManagerService.CreateDivision(ManagerEmail, Division);
 
             if(!successful)
             {
@@ -64,12 +67,12 @@ namespace timeSheetApplication.Controllers
             return RedirectToAction("HRMainPage");
         }
         [ValidateAntiForgeryToken] 
-        public async Task<IActionResult> UpdateDivision(string Division, string Manager)
+        public async Task<IActionResult> UpdateDivision(string Division, string ManagerEmail)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser.Id == null) return Challenge();
 
-            var successful = await _HRManagerService.UpdateDivision(Manager, Division);
+            var successful = await _HRManagerService.UpdateDivision(ManagerEmail, Division);
 
             if(!successful)
             {
@@ -83,6 +86,7 @@ namespace timeSheetApplication.Controllers
         public async Task<IActionResult> RemoveDivision(Guid id)
         {
             var division = await _HRManagerService.GetDivisionAsync(id.ToString());
+            var employees = await _EmployeeService.ViewEmployeesAsync();
 
             if(division == null)
             {
@@ -95,6 +99,14 @@ namespace timeSheetApplication.Controllers
                 if(!successful)
                 {
                     return BadRequest("Could not delete division.");
+                }
+
+                foreach(var employee in employees)
+                {
+                    if(employee.division.Equals(division.Division))
+                    {
+                        await _EmployeeService.UpdateEmployee("", employee.rate.ToString(), employee.exempt.ToString(), employee.Id);
+                    }
                 }
 
                 return RedirectToAction("HRMainPage");

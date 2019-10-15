@@ -6,13 +6,12 @@
         <h4 class="text-left">Division</h4>
         <input class="form-control" type="text" placeholder="New Division Name" name="Division">
         <h4 class="text-left">Manager</h4>
-        <select class="form-control" name="Manager">
+        <select class="form-control" name="ManagerEmail">
             <option disabled selected> -- Select A New Manager -- </option>
             @foreach(var employee in Model.Employees)
             {
                 <option>@employee.Email</option>
-                //<option>@employee.Id</option>
-                Console.WriteLine(Model.Employees.Count());
+                <option>@employee.Id</option>
             }
         </select>
         <button type="submit" class="btn btn-info btn-divisions">Create Division</button>

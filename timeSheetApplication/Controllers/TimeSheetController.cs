@@ -11,9 +11,7 @@ using timeSheetApplication.Services;
 
 namespace timeSheetApplication.Controllers
 {
-    [Authorize(Roles= Constants.AdministratorRole + ", "
-         + Constants.HRManager + ", "
-         + Constants.Manager)]
+    [Authorize(Roles= Constants.AdministratorRole + ", " + Constants.HRManager + ", " + Constants.Manager)]
     public class TimeSheetController : Controller
     {
         private readonly UserManager<EmployeeModel> _userManager;
@@ -75,13 +73,13 @@ namespace timeSheetApplication.Controllers
             }
             
         }
-
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DenyTime(string Message, string TimeSheetId)
         {
             var TimeSheetData = await _timeSheetService.ListUnapprovedAsync();
             return RedirectToAction("Index");
         }
-
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> MassApprove()
         {
             var timeSheetData = await _timeSheetService.ListUnapprovedAsync();
@@ -101,7 +99,8 @@ namespace timeSheetApplication.Controllers
 
             return RedirectToAction("Index");
         }
-
+        
+        [Authorize(Roles= Constants.AdministratorRole + ", " + Constants.HRManager)]
         public async Task<IActionResult> PrintChecks()
         {
             return View("~/Views/HR/PrintChecks.cshtml");

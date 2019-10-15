@@ -21,14 +21,14 @@ namespace timeSheetApplication.Services
             _context = context;
             _userManager = userManager;
         }
-        public async Task<bool> CreateDivision(string Manager, string Division)
+        public async Task<bool> CreateDivision(string ManagerEmail, string Division)
         {
             // Set division id
             var newDivision = new DivisionModel();
             newDivision.id = new Guid();
-
-            var manager = await _userManager.FindByEmailAsync(Manager);
-
+            // get the user that is going to be the manager
+            var manager = await _userManager.FindByEmailAsync(ManagerEmail);
+            // get a list of all divisions
             var divisions = await _context.Divisions.ToArrayAsync();
 
             // compare new manager id to current managers, and division name to current divisions
@@ -50,17 +50,16 @@ namespace timeSheetApplication.Services
             // Set employee division to division they are a manager of
             manager.division = Division;
             manager.exempt = true;
-
+            // update employee
             _context.Employees.Update(manager);
-
+            // save changes
             var save = await _context.SaveChangesAsync();
 
-            // Add to db
+            // Add division to db
             _context.Divisions.Add(newDivision);
-
             // Save db
             var saveResult = await _context.SaveChangesAsync();
-
+            // save of employee and division must be true
             return saveResult == 1 && save == 1;
         }
         public async Task<bool> UpdateDivision(string Manager, string Division)
@@ -99,14 +98,15 @@ namespace timeSheetApplication.Services
             manager.exempt = true;
             manager.division = Division;
             var saveEmployeeInstance = await _context.SaveChangesAsync();
-            // ensure that all 3 saves completed successfully.// whe
+            // ensure that all 3 saves completed successfully.
             return saveEmployeeInstance == 1 && saveOldManager == 1 && saveNewManagerToDivision == 1;
         }
 
         public async Task<bool> RemoveDivision(DivisionModel division)
         {
+            // remove the division by instance
             _context.Divisions.Remove(division);
-
+            // save db
             var success = await _context.SaveChangesAsync();
             
             return success == 1;
@@ -114,6 +114,7 @@ namespace timeSheetApplication.Services
 
         public async Task<DivisionModel[]> GetDivisionsAsync()
         {
+            // get list of all divisions
             return await _context.Divisions
                 .OrderBy(x => x.Division)
                 .ToArrayAsync();
@@ -121,6 +122,7 @@ namespace timeSheetApplication.Services
 
         public async Task<DivisionModel> GetDivisionAsync(string id)
         {
+            // get division by id
             return await _context.Divisions
                 .Where(x => x.id.Equals(new Guid(id)))
                 .SingleOrDefaultAsync();

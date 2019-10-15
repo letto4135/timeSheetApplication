@@ -44,7 +44,7 @@
                             </li>
                         }
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole(Constants.HRManager)
-                        || User.IsInRole(Constants.Manager) || User.IsInRole(Constants.AdministratorRole))
+                        || User.IsInRole(Constants.AdministratorRole))
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="EmployeeManagement" asp-action="EmployeeManagement">Manage Employees</a>

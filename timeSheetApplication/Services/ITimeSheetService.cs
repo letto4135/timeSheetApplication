@@ -14,7 +14,9 @@ namespace timeSheetApplication.Services
         Task<bool> ClockOutAsync(Guid id);
         Task<bool> ApproveTimeAsync(Guid id);
         Task<TimeSheetModel[]> ListUnapprovedAsync();
+        Task<TimeSheetModel[]> GetUnapprovedById(Guid id);
         Task<bool> MassApproveAsync(String[] id);
+        Task<bool> DenyTime(TimeSheetModel time);
         Task<bool> AddTimeSheet(TimeSheetModel timeSheet);
     }
 }

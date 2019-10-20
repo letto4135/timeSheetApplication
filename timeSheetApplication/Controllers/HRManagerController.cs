@@ -105,7 +105,7 @@ namespace timeSheetApplication.Controllers
                 {
                     if(employee.division.Equals(division.Division))
                     {
-                        await _EmployeeService.UpdateEmployee("", employee.rate.ToString(), employee.exempt.ToString(), employee.Id);
+                        await _EmployeeService.UpdateEmployee("No Division", employee.rate.ToString(), "False", employee.Id);
                     }
                 }
 

@@ -53,6 +53,7 @@ namespace timeSheetApplication
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 options.ViewLocationExpanders.Add(new TimeSheetViewLocationExpander());
+                
             });
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

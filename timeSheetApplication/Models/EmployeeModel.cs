@@ -7,7 +7,7 @@ namespace timeSheetApplication.Models
     {
         public string firstName{get; set;}
         public string lastName{get; set;}
-        public string? division{get; set;}
+        public string division{get; set;} = "No Division";
         public bool exempt{ get; set; } = false;
         public double rate{get;set;} = 0.0;
 

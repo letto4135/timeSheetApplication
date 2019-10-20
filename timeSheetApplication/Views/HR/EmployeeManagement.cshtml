@@ -88,6 +88,74 @@
         <h3>No Managers</h3>
     }
 
+    <h1 style="margin-top: 4rem">Employees Without Division</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Employee</th>
+                <th scope="col">Division</th>
+                <th scope="col">Wage</th>
+                <th scope="col">Exempt</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var employees = 0; }
+            @if(Model.Employees.First() != null)
+            {
+                @foreach(var item in Model.Employees)
+                {
+                    @if(item.division.Equals("No Division"))
+                    {
+                        employees++;
+                        <tr>
+                            <td class="text-left">@item.Email</td>
+                            <form class="form-inline" asp-controller="EmployeeManagement" method="POST">
+                                <td>
+                                    <select class="form-control the-invisible-man" name="Division">
+                                        <option selected>@item.division</option>
+                                        @foreach(var i in Model.Divisions)
+                                        {
+                                            <option>@i.Division</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control input-sm the-invisible-man" name="Rate" value="@item.rate">
+                                </td>
+                                <td>
+                                    <select class="form-control the-invisible-man" name="Exempt">
+                                        <option selected>@item.exempt</option>
+                                        @if(@item.exempt)
+                                        {
+                                            <option>False</option>
+                                        }
+                                        else
+                                        {
+                                            <option>True</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <button asp-action="UpdateEmployee" type="submit" class="btn btn-outline-success">Update</button>
+                                </td>
+                                <td>
+                                        <button asp-action="RemoveEmployee" type="submit" class="btn btn-outline-warning">Delete</button>
+                                </td>
+                                <input type="hidden" name="id" value="@item.Id">
+                            </form>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+    @if(@employees == 0)
+    {
+        <h3>All Employees Assigned to a Division</h3>
+    }
+
     <h1 style="margin-top: 4rem;">All Employees</h1>
     <table class="table table-striped">
         <thead>

@@ -27,7 +27,7 @@ namespace timeSheetApplication.Controllers
         
         public async Task<IActionResult> Index()
         {
-            var currentUser = _userManager.GetUserAsync(User);
+            var currentUser = await _userManager.GetUserAsync(User);
             var employees = await _employeeService.ViewEmployeesAsync();
             if (currentUser == null) return Challenge();
 
@@ -48,13 +48,17 @@ namespace timeSheetApplication.Controllers
                 string[] employee = new string[10];
                 for(int i = 0; i < timeSheetData.Length && i < 10; i++)
                 {
-                    date[i] = timeSheetData[i].Enter.Date.ToString("MM/dd/yyyy");
-                    enter[i] = timeSheetData[i].Enter.ToString("hh:mm");
-                    exit[i] = timeSheetData[i].Exit.Value.ToString("hh:mm");
-                    hoursworked[i] = timeSheetData[i].HoursWorked.Value.ToString(@"hh\:mm");
-                    rates[i] = _employeeService.FindEmployeeById(timeSheetData[i].EmployeeId.ToString()).Result.rate.ToString();
-                    gross[i] = ((Double.Parse(rates[i]) / 60.0) * Math.Round(timeSheetData[i].HoursWorked.Value.TotalMinutes)).ToString("0.00");
-                    employee[i] = _employeeService.FindEmployeeById(timeSheetData[i].EmployeeId.ToString()).Result.Email.ToString();
+                    var emp = await _employeeService.FindEmployeeById(timeSheetData[i].EmployeeId.ToString());
+                    if(emp.division.Equals(currentUser.division) || User.IsInRole(Constants.AdministratorRole) || User.IsInRole(Constants.HRManager))
+                    {
+                        date[i] = timeSheetData[i].Enter.Date.ToString("MM/dd/yyyy");
+                        enter[i] = timeSheetData[i].Enter.ToString("hh:mm");
+                        exit[i] = timeSheetData[i].Exit.Value.ToString("hh:mm");
+                        hoursworked[i] = timeSheetData[i].HoursWorked.Value.ToString(@"hh\:mm");
+                        rates[i] = _employeeService.FindEmployeeById(timeSheetData[i].EmployeeId.ToString()).Result.rate.ToString();
+                        gross[i] = ((Double.Parse(rates[i]) / 60.0) * Math.Round(timeSheetData[i].HoursWorked.Value.TotalMinutes)).ToString("0.00");
+                        employee[i] = _employeeService.FindEmployeeById(timeSheetData[i].EmployeeId.ToString()).Result.Email.ToString();
+                    }
                 }
 
                 ViewBag.date = date;
@@ -76,8 +80,17 @@ namespace timeSheetApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DenyTime(string Message, string TimeSheetId)
         {
-            var TimeSheetData = await _timeSheetService.ListUnapprovedAsync();
-            return RedirectToAction("Index");
+            var TimeSheetData = await _timeSheetService.GetUnapprovedById(new Guid(TimeSheetId));
+            var success = await _timeSheetService.DenyTime(TimeSheetData[0]);
+
+            if(success)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return BadRequest("Could not deny time.");
+            }
         }
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MassApprove()
@@ -99,9 +112,9 @@ namespace timeSheetApplication.Controllers
 
             return RedirectToAction("Index");
         }
-        
-        [Authorize(Roles= Constants.AdministratorRole + ", " + Constants.HRManager)]
-        public async Task<IActionResult> PrintChecks()
+
+        [Authorize(Roles = Constants.AdministratorRole + ", " + Constants.HRManager)]
+        public IActionResult PrintChecks()
         {
             return View("~/Views/HR/PrintChecks.cshtml");
         }

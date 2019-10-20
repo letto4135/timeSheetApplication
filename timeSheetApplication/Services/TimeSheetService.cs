@@ -192,6 +192,34 @@ namespace timeSheetApplication.Services
             // ensure the final save was success
             return saveResult == 1;
         }
+
+        public async Task<TimeSheetModel[]> GetUnapprovedById(Guid id)
+        {
+            var time = await _context.TimeSheets
+                .Where(x => x.Id.ToString().Equals(id.ToString()))
+                .ToArrayAsync();
+            
+            return time;
+        }
+
+        public async Task<bool> DenyTime(TimeSheetModel time)
+        {
+            // get timesheet by id
+            var update = await _context.TimeSheets
+                .Where(x => x.Id.ToString().Equals(time.Id.ToString()))
+                .SingleOrDefaultAsync();
+
+            // if cannot be found return false
+            if(update == null) return false;
+
+            // change approved to "denied"
+            update.Approved = 2;
+            // save entry
+            var saveResult = await _context.SaveChangesAsync();
+
+            return saveResult == 1;
+        }
+
         /// <summary>
         /// This method is used for adding timesheets into the database context for when we are generating 
         /// seed data from the seed data class @see SeedData.cs

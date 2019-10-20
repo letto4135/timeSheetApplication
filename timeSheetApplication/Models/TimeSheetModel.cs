@@ -14,7 +14,7 @@ namespace timeSheetApplication.Models
         public DateTime Enter { get; set;}
 
         public DateTime? Exit { get; set; }
-        public string? statusMessage{get; set;}
+        public string statusMessage{get; set;} = "";
 
         public int Approved{get; set;} = 0;
 

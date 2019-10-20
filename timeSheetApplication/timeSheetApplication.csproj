@@ -4,6 +4,7 @@
     <UserSecretsId>aspnet-timeSheetApplication-CA857C3C-99DE-43D7-A6B4-7637318F0C8C</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <NullableContextOptions>enable</NullableContextOptions>
+    <NullableReferenceTypes>true</NullableReferenceTypes>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>

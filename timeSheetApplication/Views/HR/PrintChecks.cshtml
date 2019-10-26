@@ -4,80 +4,91 @@
     padding: 2rem 3rem;
   }
 </style>
-
+<link href="https://fonts.googleapis.com/css?family=Meie+Script&display=swap" rel="stylesheet">
 <div class="jumbotron">
-    <div class="jumbotron jumbotron-outline">
-        <div class="container">
-            <div class="row">
-                <div class="col-2 text-left">
-                    Employee Name
+    @{int randomnum = 958;}
+    @for(int i = 0; i < ViewBag.employeeEmails.Length; i++)
+    {
+        <div class="jumbotron jumbotron-outline">
+            <div class="container">
+                <div class="row">
+                    <div class="col-2 text-left">
+                        Zeit
+                    </div>
+                    <div class="col-10 text-right">
+                        Check # @randomnum @{randomnum++;}
+                    </div>
                 </div>
-                <div class="col-10 text-right">
-                    Check #
+                <div class="row">
+                    <div class="col-2 text-left">
+                        300 Campus Dr
+                    </div>
+                    <div class="col-10 text-right">
+                        @ViewBag.date
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-2 text-left">
-                    Street Address
-                </div>
-                <div class="col-10 text-right">
-                    Date
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2 text-left">
-                    City, State, ZIP
-                </div>
-                <div class="col-10">
+                <div class="row">
+                    <div class="col-2 text-left">
+                        Parkersburg, WV, 26104
+                    </div>
+                    <div class="col-10">
 
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-2 text-left">
-                    Phone
-                </div>
-                <div class="col-10">
+                <div class="row">
+                    <div class="col-2 text-left">
+                        (304)-424-8000
+                    </div>
+                    <div class="col-10">
 
+                    </div>
                 </div>
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col-8 text-left">
-                    Pay to the order of
+                <br/>
+                <div class="row">
+                    <div class="col-8 text-left">
+                        Pay to the order of:  <span style="padding-left: 20px;">@ViewBag.employeeEmails[i]</span>
+                    </div>
+                    <div class="col-1 text-right">
+                        $
+                    </div>
+                    <div class="col-3 text-left">
+                        @ViewBag.totalGross[i].ToString("0.00")
+                    </div>
                 </div>
-                <div class="col-1 text-right">
-                    $
+                <div class="row">
+                    <div class="col-9 text-left">
+                        @ViewBag.humanizedTotalGross[i]
+                    </div>
+                    <div class="col-3 text-left">
+                        Dollars
+                    </div>
                 </div>
-                <div class="col-3 text-left">
-                    586.22
+                <br/>
+                <div class="row">
+                    <div class="col-12 text-left">
+                        Your Financial Institution
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-9 text-left">
-                    Five Hundred Eighty Six and 22/100
-                </div>
-                <div class="col-3 text-left">
-                    Dollars
-                </div>
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col-12 text-left">
-                    Your Financial Institution
-                </div>
-            </div>
-            <br/>
-            <div class="row text-left">
-                <div class="col-5">
-                    For _________________________________________________
-                </div>
-                <div class="2">
+                <br/>
+                <div class="row text-left">
+                    <div class="col-5">
+                        <div class="row">
+                            <div class="col-2 text-left">For</div>
+                            <div class="col-10 text-center" style="border-bottom: 1px solid rgb(224, 224, 224)">An A</div>
+                        </div>
+                    </div>
+                    <div class="1">
 
-                </div>
-                <div class="col-5 text-right">
-                    Signature ___________________________________________
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-3 text-left">Signature</div>
+                            <div class=" col-8 text-center" style="margin-top: -18px; border-bottom: 1px solid rgb(224, 224, 224); font-family: 'Meie Script', cursive; font-size: 28px;">Christopher Gilmer</div>
+                        </div>
+                         
+                    </div>
                 </div>
             </div>
-        </div>
-    <div>
+        </div> 
+    }
 </div>

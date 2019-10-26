@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -125,6 +126,61 @@ namespace timeSheetApplication.Controllers
         [Authorize(Roles = Constants.AdministratorRole + ", " + Constants.HRManager)]
         public IActionResult PrintChecks()
         {
+            EmployeeModel[] employees = _employeeService.GetAllEmployees();
+            TimeSheetModel[] timesheets;
+            
+            if(DateTime.Now.Day > 15)
+            {
+                timesheets = _timeSheetService.GetAllWithinRange(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), 
+                                                                 new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15));
+            }
+            else
+            {
+                timesheets = _timeSheetService.GetAllWithinRange(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 16), 
+                                                                 new DateTime(DateTime.Now.Year, DateTime.Now.Month, 
+                                                                              DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)));
+            }
+
+            string[] employeeEmails = new string[employees.Length];
+            double[] totalGross = new double[employees.Length];
+
+            for(int i = 0; i < employees.Length; i++)
+            {
+                double gross = 0;
+                for(int j = 0; j < timesheets.Length; j++)
+                {
+                    if(employees[i].Id.ToString().Equals(timesheets[j].EmployeeId.ToString()))
+                    {
+                        gross += ((employees[i].rate / 60.0) * Math.Round(timesheets[j].HoursWorked.Value.TotalMinutes));
+                    }
+                }
+
+                employeeEmails[i] = employees[i].Email;
+                totalGross[i] = gross;
+            }
+            string[] humanizedTotalGross = new string[totalGross.Length];
+            for(int i = 0; i < totalGross.Length; i++)
+            {
+                string forHumanize = totalGross[i].ToString();
+                string humanized = "";
+                if(forHumanize.Contains('.'))
+                {
+                    int beforeDot = Int32.Parse(forHumanize.Substring(0, forHumanize.IndexOf('.')));
+                    int afterDot = Int32.Parse(forHumanize.Substring(forHumanize.IndexOf('.') + 1));
+                    humanized = beforeDot.ToWords() + " and " + afterDot.ToWords() + " cents";
+                }
+                else
+                {
+                    humanized = Int32.Parse(forHumanize).ToWords().Titleize();
+                }
+                humanizedTotalGross[i] = humanized.Titleize();
+                //s = Regex.Replace(s, @"(^\w)|(\s\w)", m => m.Value.ToUpper()); << under the hood
+            }
+
+            ViewBag.humanizedTotalGross = humanizedTotalGross;
+            ViewBag.date = DateTime.Now.ToString("MM/dd/yyyy");
+            ViewBag.employeeEmails = employeeEmails;
+            ViewBag.totalGross = totalGross;
             return View("~/Views/HR/PrintChecks.cshtml");
         }
     }

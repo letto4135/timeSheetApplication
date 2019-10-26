@@ -19,5 +19,6 @@ namespace timeSheetApplication.Services
         Task<bool> DenyTime(TimeSheetModel time);
         Task<bool> AddTimeSheet(TimeSheetModel timeSheet);
         Task<TimeSheetModel[]> ViewPastTimeSheetAsync(EmployeeModel user, DateTime timeRecord);
+        TimeSheetModel[] GetAllWithinRange(DateTime begin, DateTime end);
     }
 }

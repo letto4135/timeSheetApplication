@@ -10,7 +10,6 @@ namespace timeSheetApplication.Models
         public string division{get; set;} = "No Division";
         public bool exempt{ get; set; } = false;
         public double rate{get;set;} = 0.0;
-
     }
 }
 

@@ -122,5 +122,10 @@ namespace timeSheetApplication.Services
 
             return success == 1;
         }
+
+        public EmployeeModel[] GetAllEmployees()
+        {
+            return _context.Employees.ToArray();
+        }
     }
 }

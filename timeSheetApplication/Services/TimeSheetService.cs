@@ -272,5 +272,13 @@ namespace timeSheetApplication.Services
                 .OrderBy(x => x.Enter)
                 .ToArrayAsync();
        }
+
+       public TimeSheetModel[] GetAllWithinRange(DateTime begin, DateTime end)
+       {
+           return _context.TimeSheets
+           .Where(x => x.Enter <= end)
+           .Where(x => x.Enter >= begin)
+           .ToArray();
+       }
     }
 }

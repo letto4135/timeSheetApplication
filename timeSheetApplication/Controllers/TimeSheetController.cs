@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using timeSheetApplication.Models;
 using timeSheetApplication.Services;
 
@@ -89,7 +90,11 @@ namespace timeSheetApplication.Controllers
             }
             else
             {
-                return BadRequest("Could not deny time.");
+                var routeValues = new RouteValueDictionary
+                {
+                    {"error", "Could not deny time."}
+                };
+                return RedirectToAction("Error", "Home", routeValues);
             }
         }
         [ValidateAntiForgeryToken]
@@ -107,7 +112,11 @@ namespace timeSheetApplication.Controllers
 
             if(!success)
             {
-                return BadRequest("Could not approve TimeSheets.");
+                var routeValues = new RouteValueDictionary
+                {
+                    {"error", "Could not approve TimeSheets."}
+                };
+                return RedirectToAction("Error", "Home", routeValues);
             }
 
             return RedirectToAction("Index");

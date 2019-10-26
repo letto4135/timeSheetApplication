@@ -13,6 +13,9 @@ namespace timeSheetApplication.Services
     public class TimeSheetService : ITimeSheetService
     {
         private readonly ApplicationDbContext _context;
+            // dateToPull is the first date of the payperiod, either the 1st or the 16th
+            // used in ViewTimeSheetAsync and ViewPastTimeSheetAsync
+            DateTime dateToPull;
         
         public TimeSheetService(ApplicationDbContext context)
         {
@@ -21,12 +24,11 @@ namespace timeSheetApplication.Services
         
         public async Task<TimeSheetModel[]> ViewTimeSheetAsync(EmployeeModel user, DateTime currentDate)
         {
-            // dateToPull is the first date of the payperiod, either the 1st or the 16th
-            DateTime dateToPull;
             // check which payperiod were in
             if(currentDate.Day > 15)
             {
                 dateToPull = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 16);
+                var test = dateToPull.Subtract(new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day));
             }
             else
             {
@@ -231,6 +233,44 @@ namespace timeSheetApplication.Services
            // add new timesheetmodel to the timesheets
            _context.TimeSheets.Add(timeSheet);
            return await _context.SaveChangesAsync() == 1;
+       }
+
+       public async Task<TimeSheetModel[]> ViewPastTimeSheetAsync(EmployeeModel user, DateTime timeRecord)
+       {
+
+            // check which payperiod were in
+            if(timeRecord.Day > 15)
+            {
+                dateToPull = new DateTime(timeRecord.Year, timeRecord.Month, 1);
+                // var test = dateToPull.Subtract(DateTime.Now.Month - 1);
+                // Console.WriteLine(test);
+                //var LastMonth = new DateTime(DateTime.Now.Year, DateTime)
+                
+                
+            }
+            else
+            {
+                dateToPull = new DateTime(timeRecord.Year, timeRecord.Month - 1, 16);
+            }
+            
+            if(timeRecord.Day == 1)
+            {
+                timeRecord = new DateTime(timeRecord.Year, timeRecord.Month - 1, DateTime.DaysInMonth(timeRecord.Year, timeRecord.Month - 1));
+                //DateTime today = DateTime.Today;
+            }
+            else
+            {
+                timeRecord = new DateTime(timeRecord.Year, timeRecord.Month, timeRecord.Day - 1);
+            }
+
+            // get list of timesheets where Enter date is >= first date of payperiod,
+            // exit has a value, and employee id is equal to user id
+            return await _context.TimeSheets
+                .Where(x => x.Exit != null && x.EmployeeId.ToString().Equals(user.Id.ToString()))
+                .Where(x => x.Enter >= dateToPull)
+                .Where(x => x.Enter <= timeRecord)
+                .OrderBy(x => x.Enter)
+                .ToArrayAsync();
        }
     }
 }

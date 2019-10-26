@@ -18,5 +18,6 @@ namespace timeSheetApplication.Services
         Task<bool> MassApproveAsync(String[] id);
         Task<bool> DenyTime(TimeSheetModel time);
         Task<bool> AddTimeSheet(TimeSheetModel timeSheet);
+        Task<TimeSheetModel[]> ViewPastTimeSheetAsync(EmployeeModel user, DateTime timeRecord);
     }
 }

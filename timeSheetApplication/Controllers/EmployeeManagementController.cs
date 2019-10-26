@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using timeSheetApplication.Models;
 using timeSheetApplication.Services;
-
+using Microsoft.AspNetCore.Routing;
 
 namespace timeSheetApplication.Controllers
 {
@@ -56,7 +56,7 @@ namespace timeSheetApplication.Controllers
         
         /// <summary>
         /// this method searches for the id being passed into the method, if the id is found and is not
-        /// the admin Id or manager ID it will remove the employee, otherwise it will return a badrequest
+        /// the admin Id or manager ID it will remove the employee, otherwise it will return a error page
         /// if successful it will redirect to EmployeeManagement and display the update
         /// </summary>
         /// <param name="id"></param>
@@ -71,7 +71,11 @@ namespace timeSheetApplication.Controllers
 
             if(!success)
             {
-                return BadRequest("Could not delete user, are they a manager? Managers cannot be deleted. Change manager first.");
+                var routeValues = new RouteValueDictionary
+                {
+                    {"error", "Could not delete employee. Employee may be a manager, or administrator."}
+                };
+                return RedirectToAction("Error", "Home", routeValues);
             }
 
             return RedirectToAction("EmployeeManagement");
@@ -96,7 +100,11 @@ namespace timeSheetApplication.Controllers
 
             if(! successful)
             {
-                return BadRequest("Is the employee a manager? You may be trying to remove them from the division they manage.");
+                var routeValues = new RouteValueDictionary
+                {
+                    {"error", "Could not update employee. Is the employee a manager? You may be trying to remove them from the division they manage or update their exempt status."}
+                };
+                return RedirectToAction("Error", "Home", routeValues);
             }
             return RedirectToAction("EmployeeManagement");
         }

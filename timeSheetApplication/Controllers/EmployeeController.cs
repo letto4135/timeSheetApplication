@@ -8,6 +8,7 @@ using timeSheetApplication.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using timeSheetApplication.Services;
+using Microsoft.AspNetCore.Routing;
 
 namespace timeSheetApplication.Controllers
 {
@@ -49,20 +50,97 @@ namespace timeSheetApplication.Controllers
             string[] hoursworked = new string[20];
             string[] gross = new string[20];
             string[] date = new string[20];
+            TimeSpan totalHours = new TimeSpan(0);
+            double totalGross = 0;
             if(employee != null) //checking to make sure that the employee is not null
             {
                 for(int i = 0; i < timeSheetData.Length; i++)
                 {
+                    totalHours = totalHours.Add(timeSheetData[i].HoursWorked.Value);
+                    totalGross += ((employee.rate / 60.0) * Math.Round(timeSheetData[i].HoursWorked.Value.TotalMinutes));
                     date[i] = timeSheetData[i].Enter.Date.ToString("MM/dd/yyyy"); //formatting the date time and storing it in our string array dates
                     enter[i] = timeSheetData[i].Enter.ToString("hh:mm");
                     exit[i] = timeSheetData[i].Exit.Value.ToString("hh:mm");
                     hoursworked[i] = timeSheetData[i].HoursWorked.Value.ToString(@"hh\:mm");
+                    totalHours.Add(timeSheetData[i].HoursWorked.Value);
                     gross[i] = ((employee.rate / 60.0) * Math.Round(timeSheetData[i].HoursWorked.Value.TotalMinutes)).ToString("0.00"); // we are using rounding here in order to only pay employees by the minute rather than by the second
                 }
             }
-
+            ViewBag.totalHours = ((totalHours.Days * 24) + totalHours.Hours).ToString() + ":" + totalHours.Minutes.ToString("00");
+            ViewBag.totalGross = totalGross;
             ViewBag.beginDate = date[0];
             ViewBag.endDate = DateTime.Now.ToString("MM/dd/yyyy");
+            ViewBag.date = date;
+            ViewBag.enter = enter;
+            ViewBag.exit = exit;
+            ViewBag.hoursworked = hoursworked;
+            ViewBag.gross = gross;
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> PreviousTimeSheet(DateTime timeRecord)
+        {
+            if(timeRecord.Year == 0001)
+            {
+                return Redirect("/Employee/CurrentTimeSheet");
+            }
+            // ensure current user is logged in
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null) return Challenge();
+            // find current user and their timesheet data
+            var employee = await _employeeService.FindEmployeeById(currentUser.Id.ToString());
+            // timeRecord is the 'oldest' date in the current time period 
+            var timeSheetData = await _timeSheetService.ViewPastTimeSheetAsync(currentUser, timeRecord);
+            
+            var model = new TimeSheetViewModel()
+            {
+                Items = timeSheetData,
+                Employee = employee
+            };
+
+            string[] enter = new string[20];
+            string[] exit = new string[20];
+            string[] hoursworked = new string[20];
+            string[] gross = new string[20];
+            string[] date = new string[20];
+            TimeSpan totalHours = new TimeSpan(0);
+            double totalGross = 0;
+            if(employee != null) //checking to make sure that the employee is not null
+            {
+                for(int i = 0; i < timeSheetData.Length; i++)
+                {
+                    totalHours = totalHours.Add(timeSheetData[i].HoursWorked.Value);
+                    totalGross += ((employee.rate / 60.0) * Math.Round(timeSheetData[i].HoursWorked.Value.TotalMinutes));
+                    //formatting the date time and storing it in our string array dates
+                    date[i] = timeSheetData[i].Enter.Date.ToString("MM/dd/yyyy"); 
+                    enter[i] = timeSheetData[i].Enter.ToString("hh:mm");
+                    exit[i] = timeSheetData[i].Exit.Value.ToString("hh:mm");
+                    hoursworked[i] = timeSheetData[i].HoursWorked.Value.ToString(@"hh\:mm");
+                    // we are using rounding here in order to only pay employees by the minute rather than by the second
+                    gross[i] = ((employee.rate / 60.0) * Math.Round(timeSheetData[i].HoursWorked.Value.TotalMinutes)).ToString("00.0"); 
+                }
+                if(timeSheetData.Length > 0)
+                {
+                    if(timeSheetData[0].Enter.Day < 16)
+                    {
+                        ViewBag.endDate = new DateTime(timeSheetData[0].Enter.Year, 
+                        timeSheetData[0].Enter.Month, 15).ToString("MM/dd/yyyy");
+                    }
+                    else
+                    {
+                        ViewBag.endDate = new DateTime
+                        (timeSheetData[0].Enter.Year, timeSheetData[0].Enter.Month, 
+                        DateTime.DaysInMonth(timeSheetData[0].Enter.Year,
+                        timeSheetData[0].Enter.Month)).ToString("MM/dd/yyyy");
+                    }
+                }
+
+            }
+
+            ViewBag.beginDate = date[0];
+            ViewBag.totalHours = ((totalHours.Days * 24) + totalHours.Hours).ToString() + ":" + totalHours.Minutes.ToString("00");
+            ViewBag.totalGross = totalGross;
             ViewBag.date = date;
             ViewBag.enter = enter;
             ViewBag.exit = exit;
@@ -107,7 +185,11 @@ namespace timeSheetApplication.Controllers
 
             if(!employeeClockOut)
             {
-                return BadRequest("Could not clock out properly.");
+                var routeValues = new RouteValueDictionary
+                {
+                    {"error", "Could not clock out. Were you not clocked in?"}
+                };
+                return RedirectToAction("Error", "Home", routeValues);
             }
             return View();
         } 

@@ -8,8 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using timeSheetApplication.Models;
 using timeSheetApplication.Services;
-
-
+using Microsoft.AspNetCore.Routing;
 
 namespace timeSheetApplication.Controllers
 {
@@ -61,7 +60,11 @@ namespace timeSheetApplication.Controllers
 
             if(!successful)
             {
-                return BadRequest("Could not create the division");
+                var routeValues = new RouteValueDictionary
+                {
+                    {"error", "Could not create the division. A division may exist with that name or manager."}
+                };
+                return RedirectToAction("Error", "Home", routeValues);
             }
 
             return RedirectToAction("HRMainPage");
@@ -76,7 +79,11 @@ namespace timeSheetApplication.Controllers
 
             if(!successful)
             {
-                return BadRequest("Could not update the division");
+                var routeValues = new RouteValueDictionary
+                {
+                    {"error", "Could not update the division. Employee may already be a manager."}
+                };
+                return RedirectToAction("Error", "Home", routeValues);
             }
 
             return RedirectToAction("HRMainPage");
@@ -90,7 +97,11 @@ namespace timeSheetApplication.Controllers
 
             if(division == null)
             {
-                return BadRequest("Could not locate a user to delete user.");
+                var routeValues = new RouteValueDictionary
+                {
+                    {"error", "Could not delete the division."}
+                };
+                return RedirectToAction("Error", "Home", routeValues);
             }
             else
             {
@@ -98,7 +109,11 @@ namespace timeSheetApplication.Controllers
 
                 if(!successful)
                 {
-                    return BadRequest("Could not delete division.");
+                    var routeValues = new RouteValueDictionary
+                    {
+                        {"error", "Could not delete division."}
+                    };
+                    return RedirectToAction("Error", "Home", routeValues);
                 }
 
                 foreach(var employee in employees)

@@ -241,12 +241,7 @@ namespace timeSheetApplication.Services
             // check which payperiod were in
             if(timeRecord.Day > 15)
             {
-                dateToPull = new DateTime(timeRecord.Year, timeRecord.Month, 1);
-                // var test = dateToPull.Subtract(DateTime.Now.Month - 1);
-                // Console.WriteLine(test);
-                //var LastMonth = new DateTime(DateTime.Now.Year, DateTime)
-                
-                
+                dateToPull = new DateTime(timeRecord.Year, timeRecord.Month, 1);   
             }
             else
             {
@@ -256,7 +251,6 @@ namespace timeSheetApplication.Services
             if(timeRecord.Day == 1)
             {
                 timeRecord = new DateTime(timeRecord.Year, timeRecord.Month - 1, DateTime.DaysInMonth(timeRecord.Year, timeRecord.Month - 1));
-                //DateTime today = DateTime.Today;
             }
             else
             {
@@ -278,6 +272,7 @@ namespace timeSheetApplication.Services
            return _context.TimeSheets
            .Where(x => x.Enter <= end)
            .Where(x => x.Enter >= begin)
+           .Where(x => x.Approved == 1)
            .ToArray();
        }
     }

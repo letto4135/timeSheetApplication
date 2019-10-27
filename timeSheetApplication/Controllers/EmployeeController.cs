@@ -57,7 +57,10 @@ namespace timeSheetApplication.Controllers
                 for(int i = 0; i < timeSheetData.Length; i++)
                 {
                     totalHours = totalHours.Add(timeSheetData[i].HoursWorked.Value);
-                    totalGross += ((employee.rate / 60.0) * Math.Round(timeSheetData[i].HoursWorked.Value.TotalMinutes));
+                    if(timeSheetData[i].Approved != 2)
+                    {
+                        totalGross += ((employee.rate / 60.0) * Math.Round(timeSheetData[i].HoursWorked.Value.TotalMinutes));
+                    }
                     date[i] = timeSheetData[i].Enter.Date.ToString("MM/dd/yyyy"); //formatting the date time and storing it in our string array dates
                     enter[i] = timeSheetData[i].Enter.ToString("hh:mm");
                     exit[i] = timeSheetData[i].Exit.Value.ToString("hh:mm");

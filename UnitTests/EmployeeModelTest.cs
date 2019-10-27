@@ -9,6 +9,7 @@ namespace UnitTests
 {
     public class EmployeeModelTest
     {
+        private readonly DbContext _db;
         [Fact]
         public void EmployeeCreateModel()
         {
@@ -20,6 +21,8 @@ namespace UnitTests
                 exempt = false,
                 rate = 23.0
             };
+
+            _db.Add(employee);
             Assert.NotNull(employee.firstName);
             Assert.NotNull(employee.lastName);
             Assert.NotNull(employee.division);

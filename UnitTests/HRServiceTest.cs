@@ -38,7 +38,7 @@
 
 //             using (var context = new ApplicationDbContext(options))
 //             {
-//                 var store = new UserStore<EmployeeModel>(context);
+//                  var store = new UserStore<EmployeeModel>(context);
 //                 var userManager = _serviceCollection.BuildServiceProvider().GetService<UserManager<EmployeeModel>>();
 //                 await userManager.CreateAsync(new EmployeeModel{
 //                     firstName = "name",
@@ -64,6 +64,16 @@
 //                     //Environment.Exit(1);
 //                 }
                 
+//             }
+
+//             using (var context = new ApplicationDbContext(options))
+//             {
+//                 var itemsInDatabase = await context
+//                 .Divisions.CountAsync();
+                
+//                 Assert.Equal(1, itemsInDatabase);
+//                 var item = await context.Divisions.FirstAsync();
+//                 Assert.Equal("Test Division", item.Division);
 //             }
 
 //             using (var context = new ApplicationDbContext(options))

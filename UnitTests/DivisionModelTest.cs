@@ -49,13 +49,13 @@ namespace DivisionModelTest
                 await context.SaveChangesAsync();
                 var emp = await context.Employees.FirstOrDefaultAsync();
 
-                Assert.True(emp.Email.Equals("FakeEmail@fake.com"));
+                Assert.Matches("FakeEmail@fake.com", emp.Email);
 
                 await context.AddAsync(new DivisionModel {id=new Guid(), managerId=new Guid(emp.Id), Division="TestDivision"});
                 await context.SaveChangesAsync();
 
                 var div = await context.Divisions.FirstOrDefaultAsync();
-                Assert.True(div.Division.Equals("TestDivision"));
+                Assert.Matches("TestDivision", div.Division);
             }
 
             using (var context = new ApplicationDbContext(options))

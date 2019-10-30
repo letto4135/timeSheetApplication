@@ -9,73 +9,59 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using timeSheetApplication.Services;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using System.Threading.Tasks;
 
 namespace DivisionModelTest
 {
-    public class DivisonTest : IDisposable
+    public class DivisionModelTest
     {
-        private ServiceCollection _serviceCollection;
-        private readonly ITestOutputHelper _output;
-         private readonly DbContext _db;
-        public DivisonTest(ITestOutputHelper output)
+        private readonly UserManager<EmployeeModel> _userManager;
+        private readonly ITimeSheetService _timeSheetService;
+        private readonly IHRManagerService _hrManagerService;
+        public DivisionModelTest()
         {
-            _output = output;
-            _serviceCollection = new ServiceCollection();
-            _serviceCollection.AddIdentity<EmployeeModel, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityDbContext<EmployeeModel>>()
-                .AddDefaultTokenProviders();
-            _serviceCollection.AddDbContext<IdentityDbContext<EmployeeModel>>(options =>
-            {
-                options.UseInMemoryDatabase(databaseName:"Test_CreateDivision");
-            });
+            var services = new ServiceCollection();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase(databaseName:"DivisionTest"));
+            services.AddIdentity<EmployeeModel, IdentityUser>()
+            .AddRoles<IdentityRole>()
+            .AddDefaultTokenProviders()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<IHRManagerService, HRService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<ITimeSheetService, TimeSheetService>();
+            var serv = services.BuildServiceProvider();
+            _userManager = services.BuildServiceProvider().GetRequiredService<UserManager<EmployeeModel>>();
+            _timeSheetService = serv.GetRequiredService<ITimeSheetService>();
+            _hrManagerService = serv.GetRequiredService<IHRManagerService>();
         }
-
-        public void Dispose()
-        {
-            //_db.CleanDb();
-        }
-
         [Fact]
-        public void DivisionCreationTest()
+        public async Task AddNewDivision()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName:"Test_CreateDivision").Options;
+            .UseInMemoryDatabase(databaseName: "DivisionTest").Options;
 
             using (var context = new ApplicationDbContext(options))
             {
-                var store = new UserStore<EmployeeModel>(context);
-                var userManager = _serviceCollection.BuildServiceProvider().GetService<UserManager<EmployeeModel>>();
-                var employeeService = _serviceCollection.BuildServiceProvider().GetService<IEmployeeService>();
-                var timeSheetService = _serviceCollection.BuildServiceProvider().GetService<ITimeSheetService>();
-                var HRManagerService = _serviceCollection.BuildServiceProvider().GetService<IHRManagerService>();
-                
-                var user = new EmployeeModel{ UserName = "test@email.com", Email = "test@email.com"};
-                userManager.CreateAsync(user, "Test12!");
-                context.SaveChanges();
-                HRManagerService.CreateDivision(user.Email, "Test Division");
-                context.SaveChanges();
-            };
+                var HRService = new HRService(context, _userManager);
+                var fakeUser = new EmployeeModel {Id = new Guid().ToString(), Email = "FakeEmail@fake.com", UserName = "Fake1"};
+                await context.AddAsync(fakeUser);
+                await context.SaveChangesAsync();
+                var emp = await context.Employees.FirstOrDefaultAsync();
 
-            using (var context = new ApplicationDbContext(options))
-            {
-                var itemsInDatabase =  context.Users.Count();
+                Assert.True(emp.Email.Equals("FakeEmail@fake.com"));
 
-                Assert.Equal(1, itemsInDatabase);
-                //var item = context.Divisions.FirstOrDefault();
-                //Assert.Equal("Test Division", item.Division);
+                await context.AddAsync(new DivisionModel {id=new Guid(), managerId=new Guid(emp.Id), Division="TestDivision"});
+                await context.SaveChangesAsync();
+
+                var div = await context.Divisions.FirstOrDefaultAsync();
+                Assert.True(div.Division.Equals("TestDivision"));
             }
-   
-            var division = new DivisionModel
+
+            using (var context = new ApplicationDbContext(options))
             {
-                id = new Guid(),
-                Division = "Computers",
-                managerId = new Guid() 
-            };
-            Guid guidResult;
-            Assert.True(Guid.TryParse(division.id.ToString(), out guidResult));
-            Assert.NotNull(division.Division);
-            Assert.True(Guid.TryParse(division.managerId.ToString(), out guidResult));
-            Assert.Equal("Computers", division.Division);
+                
+            }
         }
     }
 }

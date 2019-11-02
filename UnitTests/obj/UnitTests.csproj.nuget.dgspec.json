@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\UnitTests\\UnitTests.csproj": {}
+    "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\UnitTests\\UnitTests.csproj": {}
   },
   "projects": {
-    "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\timeSheetApplication\\timeSheetApplication.csproj": {
+    "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\timeSheetApplication\\timeSheetApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\timeSheetApplication\\timeSheetApplication.csproj",
+        "projectUniqueName": "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\timeSheetApplication\\timeSheetApplication.csproj",
         "projectName": "timeSheetApplication",
-        "projectPath": "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\timeSheetApplication\\timeSheetApplication.csproj",
-        "packagesPath": "C:\\Users\\ejhsc\\.nuget\\packages\\",
-        "outputPath": "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\timeSheetApplication\\obj\\",
+        "projectPath": "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\timeSheetApplication\\timeSheetApplication.csproj",
+        "packagesPath": "C:\\Users\\letto\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\timeSheetApplication\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\ejhsc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\letto\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -75,20 +75,20 @@
         }
       }
     },
-    "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\UnitTests\\UnitTests.csproj": {
+    "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\UnitTests\\UnitTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\UnitTests\\UnitTests.csproj",
+        "projectUniqueName": "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\UnitTests\\UnitTests.csproj",
         "projectName": "UnitTests",
-        "projectPath": "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\UnitTests\\UnitTests.csproj",
-        "packagesPath": "C:\\Users\\ejhsc\\.nuget\\packages\\",
-        "outputPath": "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\UnitTests\\obj\\",
+        "projectPath": "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\UnitTests\\UnitTests.csproj",
+        "packagesPath": "C:\\Users\\letto\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\UnitTests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\ejhsc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\letto\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -101,8 +101,8 @@
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {
-              "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\timeSheetApplication\\timeSheetApplication.csproj": {
-                "projectPath": "G:\\programming\\allProgrammingStuff\\timeSheetApplicationRoot\\timeSheetApplication\\timeSheetApplication.csproj"
+              "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\timeSheetApplication\\timeSheetApplication.csproj": {
+                "projectPath": "C:\\Users\\letto\\Desktop\\allProgrammingStuff-master\\timeSheetApplication\\timeSheetApplication\\timeSheetApplication.csproj"
               }
             }
           }

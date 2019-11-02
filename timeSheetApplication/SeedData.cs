@@ -93,9 +93,16 @@ namespace timeSheetApplication
             await timeSheetManager.AddTimeSheet(timeSheet);
 
             timeSheet = new TimeSheetModel {Id = new Guid(), 
-                                                Enter = new DateTime(DateTime.Now.Year, 9, 1), 
-                                                Exit = new DateTime(DateTime.Now.Year, 9, 1).AddHours(3), 
-                                                HoursWorked = new DateTime(DateTime.Now.Year, 9, 1).AddHours(3).Subtract(new DateTime(DateTime.Now.Year, 9, 1)),
+                                                Enter = new DateTime(DateTime.Now.Year, 10, 1), 
+                                                Exit = new DateTime(DateTime.Now.Year, 10, 1).AddHours(3), 
+                                                HoursWorked = new DateTime(DateTime.Now.Year, 10, 1).AddHours(3).Subtract(new DateTime(DateTime.Now.Year, 10, 1)),
+                                                EmployeeId = new Guid(testAdmin.Id)};
+            await timeSheetManager.AddTimeSheet(timeSheet);
+
+            timeSheet = new TimeSheetModel {Id = new Guid(), 
+                                                Enter = new DateTime(DateTime.Now.Year, 10, 17), 
+                                                Exit = new DateTime(DateTime.Now.Year, 10, 17).AddHours(3), 
+                                                HoursWorked = new DateTime(DateTime.Now.Year, 10, 17).AddHours(3).Subtract(new DateTime(DateTime.Now.Year, 10, 17)),
                                                 EmployeeId = new Guid(testAdmin.Id)};
             await timeSheetManager.AddTimeSheet(timeSheet);
 
@@ -104,9 +111,9 @@ namespace timeSheetApplication
             await userManager.AddToRoleAsync(testAdmin, Constants.HRManager);
 
             timeSheet = new TimeSheetModel {Id = new Guid(), 
-                                                Enter = new DateTime(DateTime.Now.Year, 9, 1), 
-                                                Exit = new DateTime(DateTime.Now.Year, 9, 1).AddHours(3), 
-                                                HoursWorked = new DateTime(DateTime.Now.Year, 9, 1).AddHours(3).Subtract(new DateTime(DateTime.Now.Year, 9, 1)),
+                                                Enter = new DateTime(DateTime.Now.Year, 10, 1), 
+                                                Exit = new DateTime(DateTime.Now.Year, 10, 1).AddHours(3), 
+                                                HoursWorked = new DateTime(DateTime.Now.Year, 10, 1).AddHours(3).Subtract(new DateTime(DateTime.Now.Year, 10, 1)),
                                                 EmployeeId = new Guid(testAdmin.Id)};
             await timeSheetManager.AddTimeSheet(timeSheet);
 
@@ -178,9 +185,9 @@ namespace timeSheetApplication
             await userManager.AddToRoleAsync(testAdmin, Constants.Manager);
 
             timeSheet = new TimeSheetModel {Id = new Guid(), 
-                                                Enter = new DateTime(DateTime.Now.Year, 9, 1), 
-                                                Exit = new DateTime(DateTime.Now.Year, 9, 1).AddHours(3), 
-                                                HoursWorked = new DateTime(DateTime.Now.Year, 9, 1).AddHours(3).Subtract(new DateTime(DateTime.Now.Year, 9, 1)),
+                                                Enter = new DateTime(DateTime.Now.Year, 10, 1), 
+                                                Exit = new DateTime(DateTime.Now.Year, 10, 1).AddHours(3), 
+                                                HoursWorked = new DateTime(DateTime.Now.Year, 10, 1).AddHours(3).Subtract(new DateTime(DateTime.Now.Year, 10, 1)),
                                                 EmployeeId = new Guid(testAdmin.Id)};
             await timeSheetManager.AddTimeSheet(timeSheet);
 
@@ -210,9 +217,9 @@ namespace timeSheetApplication
             await userManager.AddToRoleAsync(testAdmin, Constants.EmployeeRole);
 
             timeSheet = new TimeSheetModel {Id = new Guid(), 
-                                                Enter = new DateTime(DateTime.Now.Year, 9, 1), 
-                                                Exit = new DateTime(DateTime.Now.Year, 9, 1).AddHours(3), 
-                                                HoursWorked = new DateTime(DateTime.Now.Year, 9, 1).AddHours(3).Subtract(new DateTime(DateTime.Now.Year, 9, 1)),
+                                                Enter = new DateTime(DateTime.Now.Year, 10, 1), 
+                                                Exit = new DateTime(DateTime.Now.Year, 10, 1).AddHours(3), 
+                                                HoursWorked = new DateTime(DateTime.Now.Year, 10, 1).AddHours(3).Subtract(new DateTime(DateTime.Now.Year, 10, 1)),
                                                 EmployeeId = new Guid(testAdmin.Id)};
             await timeSheetManager.AddTimeSheet(timeSheet);
 

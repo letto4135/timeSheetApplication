@@ -19,6 +19,7 @@ namespace DivisionModelTest
         private readonly UserManager<EmployeeModel> _userManager;
         private readonly ITimeSheetService _timeSheetService;
         private readonly IHRManagerService _hrManagerService;
+        private ServiceProvider service;
         public DivisionModelTest()
         {
             var services = new ServiceCollection();
@@ -30,10 +31,11 @@ namespace DivisionModelTest
             services.AddScoped<IHRManagerService, HRService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<ITimeSheetService, TimeSheetService>();
-            var serv = services.BuildServiceProvider();
+            service = services.BuildServiceProvider();
             _userManager = services.BuildServiceProvider().GetRequiredService<UserManager<EmployeeModel>>();
-            _timeSheetService = serv.GetRequiredService<ITimeSheetService>();
-            _hrManagerService = serv.GetRequiredService<IHRManagerService>();
+            _timeSheetService = service.GetRequiredService<ITimeSheetService>();
+            _hrManagerService = service.GetRequiredService<IHRManagerService>();
+            
         }
         [Fact]
         public async Task AddNewDivision()
@@ -43,19 +45,23 @@ namespace DivisionModelTest
 
             using (var context = new ApplicationDbContext(options))
             {
-                var HRService = new HRService(context, _userManager);
+                var _hrManagerService = service.GetRequiredService<IHRManagerService>();
+                _hrManagerService.CreateDivision("Fake@fake.com", "Division");
+
+                Assert.NotNull(context.Divisions.FirstOrDefaultAsync());
+                var _HRService = new HRService(context, _userManager);
                 var fakeUser = new EmployeeModel {Id = new Guid().ToString(), Email = "FakeEmail@fake.com", UserName = "Fake1"};
                 await context.AddAsync(fakeUser);
                 await context.SaveChangesAsync();
                 var emp = await context.Employees.FirstOrDefaultAsync();
 
-                Assert.True(emp.Email.Equals("FakeEmail@fake.com"));
+                Assert.Matches("FakeEmail@fake.com", emp.Email);
 
                 await context.AddAsync(new DivisionModel {id=new Guid(), managerId=new Guid(emp.Id), Division="TestDivision"});
                 await context.SaveChangesAsync();
 
                 var div = await context.Divisions.FirstOrDefaultAsync();
-                Assert.True(div.Division.Equals("TestDivision"));
+                Assert.Matches("TestDivision", div.Division);
             }
 
             using (var context = new ApplicationDbContext(options))

@@ -28,7 +28,7 @@ namespace timeSheetApplication.Services
             if(currentDate.Day > 15)
             {
                 dateToPull = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 16);
-                var test = dateToPull.Subtract(new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day));
+                var test = dateToPull.Subtract(new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day - 1));
             }
             else
             {
